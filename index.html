@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Apex Holdings Group — We Build What People Use</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    --blue: #2D6BE4;
+    --bg: #080810;
+    --surface: #0f0f1a;
+    --border: #ffffff10;
+    --text: #f0f0f0;
+    --muted: #777;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    background: #080810cc;
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--blue); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 120px 40px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -30%; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px; border-radius: 50%;
+    background: radial-gradient(circle, #2D6BE412, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 1000px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .hero-left {}
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #ffffff08; border: 1px solid #ffffff12;
+    padding: 5px 14px; border-radius: 100px;
+    font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--muted); margin-bottom: 28px;
+    animation: fadeUp .5s ease both;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 800; letter-spacing: -2px;
+    line-height: 1.02;
+    animation: fadeUp .5s .1s ease both;
+  }
+  h1 span { color: var(--blue); }
+
+  .hero-sub {
+    margin-top: 20px; color: var(--muted);
+    font-size: 17px; line-height: 1.65;
+    max-width: 400px;
+    animation: fadeUp .5s .2s ease both;
+  }
+
+  .hero-links {
+    margin-top: 36px;
+    display: flex; gap: 12px; flex-wrap: wrap;
+    animation: fadeUp .5s .3s ease both;
+  }
+  .btn-primary {
+    background: var(--blue); color: white;
+    padding: 14px 24px; border-radius: 10px;
+    font-family: 'DM Sans'; font-size: 15px; font-weight: 600;
+    text-decoration: none; transition: opacity .2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { opacity: .85; }
+  .btn-ghost {
+    background: transparent; color: var(--muted);
+    padding: 14px 24px; border-radius: 10px;
+    border: 1px solid var(--border);
+    font-family: 'DM Sans'; font-size: 15px; font-weight: 500;
+    text-decoration: none; transition: border-color .2s, color .2s;
+  }
+  .btn-ghost:hover { border-color: #ffffff30; color: var(--text); }
+
+  /* product card on right */
+  .hero-right {
+    animation: fadeUp .5s .2s ease both;
+  }
+
+  .product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px;
+    position: relative; overflow: hidden;
+    transition: border-color .25s, transform .25s;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, #2D6BE430, transparent);
+  }
+  .product-card:hover {
+    border-color: #2D6BE440;
+    transform: translateY(-4px);
+  }
+
+  .card-status {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+    color: #4ade80; margin-bottom: 20px;
+  }
+  .card-status::before {
+    content: '';
+    width: 6px; height: 6px; background: #4ade80; border-radius: 50%;
+    display: inline-block;
+  }
+
+  .product-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px; font-weight: 800;
+    letter-spacing: -1px; margin-bottom: 12px;
+  }
+  .product-name span { color: var(--blue); }
+
+  .product-desc {
+    color: var(--muted); font-size: 15px; line-height: 1.65;
+    margin-bottom: 28px;
+  }
+
+  .product-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 28px;
+  }
+  .tag {
+    background: #ffffff08; border: 1px solid #ffffff10;
+    padding: 5px 12px; border-radius: 100px;
+    font-size: 12px; color: var(--muted);
+  }
+
+  .card-link {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; color: var(--blue);
+    text-decoration: none;
+    transition: gap .2s;
+  }
+  .card-link:hover { gap: 12px; }
+
+  /* ── STATS ── */
+  .stats {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    text-align: center;
+    max-width: 900px; margin: 0 auto;
+  }
+  .stat {
+    padding: 20px;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 40px; font-weight: 800;
+    color: var(--blue); letter-spacing: -1px;
+  }
+  .stat-label {
+    font-size: 13px; color: var(--muted); margin-top: 4px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  footer .logo {
+    font-family: 'Syne'; font-size: 16px; font-weight: 800;
+  }
+  footer .logo span { color: var(--blue); }
+  footer p { font-size: 13px; color: #444; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Apex<span>.</span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="badge">Apex Holdings Group LLC</div>
+
+      <h1>We build products<br>people <span>actually use.</span></h1>
+
+      <p class="hero-sub">High-impact AI products built for real people — not pitch decks. Based in New Jersey, shipping in 2025.</p>
+
+      <div class="hero-links">
+        <a href="pl.index.html" class="btn-primary">
+          View PureLabel →
+        </a>
+        <a href="mailto:jerry@apexxholdings.com" class="btn-ghost">
+          Get in touch
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="product-card">
+        <div class="card-status">In Development</div>
+
+        <div class="product-name">Pure<span>Label</span></div>
+
+        <p class="product-desc">
+          Scan any food product and instantly expose what's really inside — hidden chemicals, misleading labels, and everything the packaging doesn't tell you.
+        </p>
+
+        <div class="product-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">AI-Powered</span>
+          <span class="tag">iOS & Android</span>
+          <span class="tag">Barcode Scanning</span>
+        </div>
+
+        <a href="pl.index.html" class="card-link">
+          Join the waitlist →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">1M+</div>
+    <div class="stat-label">Products in database</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">&lt;3s</div>
+    <div class="stat-label">Scan to result</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Transparency</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Apex<span>.</span></div>
+  <p>© 2025 Apex Holdings Group LLC · Fanwood, NJ</p>
+</footer>
+
+</body>
+</html>

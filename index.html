@@ -18,6 +18,15 @@
     --muted: #777;
   }
 
+  /* Register --angle for conic gradient animation */
+  @property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  html { scroll-behavior: smooth; }
+
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
@@ -29,34 +38,101 @@
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 40px;
-    background: #080810cc;
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
+    padding: 20px 48px;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: padding .4s ease, background .4s ease, border-color .4s ease;
+  }
+  nav.scrolled {
+    padding: 14px 48px;
+    background: rgba(8, 8, 16, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom-color: var(--border);
   }
   .nav-logo {
     font-family: 'Syne', sans-serif;
     font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
   }
   .nav-logo span { color: var(--blue); }
+  .nav-contact {
+    font-size: 13px; color: var(--muted);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-contact:hover { color: var(--text); }
 
   /* ── HERO ── */
   .hero {
     min-height: 100vh;
     display: flex; align-items: center; justify-content: center;
-    padding: 120px 40px 80px;
+    padding: 130px 48px 100px;
     position: relative; overflow: hidden;
   }
-  .hero::before {
+
+  /* Floating glow orbs — CSS-only animation */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform;
+  }
+  .orb-1 {
+    width: 700px; height: 700px;
+    top: -20%; left: 20%;
+    background: radial-gradient(circle, rgba(45,107,228,0.12) 0%, transparent 65%);
+    filter: blur(40px);
+  }
+  .orb-2 {
+    width: 500px; height: 500px;
+    top: 30%; right: -10%;
+    background: radial-gradient(circle, rgba(45,107,228,0.08) 0%, transparent 65%);
+    filter: blur(50px);
+  }
+  .orb-3 {
+    width: 400px; height: 400px;
+    bottom: -10%; left: 5%;
+    background: radial-gradient(circle, rgba(100,80,255,0.07) 0%, transparent 65%);
+    filter: blur(60px);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .orb-1 { animation: float-a 22s ease-in-out infinite; }
+    .orb-2 { animation: float-b 28s ease-in-out infinite; }
+    .orb-3 { animation: float-c 18s ease-in-out infinite; }
+  }
+
+  @keyframes float-a {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%       { transform: translate(-40px, 30px) scale(1.05); }
+    66%       { transform: translate(30px, -20px) scale(0.97); }
+  }
+  @keyframes float-b {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40%       { transform: translate(30px, 40px) scale(1.08); }
+    70%       { transform: translate(-20px, -30px) scale(0.95); }
+  }
+  @keyframes float-c {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(20px, -40px) scale(1.1); }
+  }
+
+  /* Grid mesh overlay */
+  .hero::after {
     content: '';
-    position: absolute; top: -30%; left: 50%; transform: translateX(-50%);
-    width: 800px; height: 800px; border-radius: 50%;
-    background: radial-gradient(circle, #2D6BE412, transparent 65%);
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
     pointer-events: none;
   }
 
   .hero-inner {
-    max-width: 1000px;
+    position: relative; z-index: 1;
+    max-width: 1040px;
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -64,76 +140,129 @@
     align-items: center;
   }
 
-  .hero-left {}
-
+  /* ── HERO LEFT ── */
   .badge {
     display: inline-flex; align-items: center; gap: 8px;
-    background: #ffffff08; border: 1px solid #ffffff12;
-    padding: 5px 14px; border-radius: 100px;
-    font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+    background: #ffffff08; border: 1px solid #ffffff14;
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
     color: var(--muted); margin-bottom: 28px;
-    animation: fadeUp .5s ease both;
+  }
+  .badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--blue); display: inline-block;
+    flex-shrink: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .badge-dot { animation: pulse-dot 2.5s ease-in-out infinite; }
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.7); }
   }
 
   h1 {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(38px, 5vw, 64px);
+    font-size: clamp(38px, 5vw, 62px);
     font-weight: 800; letter-spacing: -2px;
-    line-height: 1.02;
-    animation: fadeUp .5s .1s ease both;
+    line-height: 1.04;
   }
   h1 span { color: var(--blue); }
 
   .hero-sub {
-    margin-top: 20px; color: var(--muted);
-    font-size: 17px; line-height: 1.65;
+    margin-top: 22px; color: var(--muted);
+    font-size: 17px; line-height: 1.7;
     max-width: 400px;
-    animation: fadeUp .5s .2s ease both;
   }
 
   .hero-links {
-    margin-top: 36px;
+    margin-top: 38px;
     display: flex; gap: 12px; flex-wrap: wrap;
-    animation: fadeUp .5s .3s ease both;
   }
   .btn-primary {
     background: var(--blue); color: white;
-    padding: 14px 24px; border-radius: 10px;
-    font-family: 'DM Sans'; font-size: 15px; font-weight: 600;
-    text-decoration: none; transition: opacity .2s;
+    padding: 13px 26px; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+    text-decoration: none;
     display: inline-flex; align-items: center; gap: 8px;
+    transition: transform .25s cubic-bezier(0.16,1,0.3,1),
+                box-shadow .25s cubic-bezier(0.16,1,0.3,1),
+                opacity .2s;
+    box-shadow: 0 0 0 rgba(45,107,228,0);
   }
-  .btn-primary:hover { opacity: .85; }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(45,107,228,0.35);
+    opacity: .9;
+  }
   .btn-ghost {
     background: transparent; color: var(--muted);
-    padding: 14px 24px; border-radius: 10px;
+    padding: 13px 26px; border-radius: 10px;
     border: 1px solid var(--border);
-    font-family: 'DM Sans'; font-size: 15px; font-weight: 500;
-    text-decoration: none; transition: border-color .2s, color .2s;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: border-color .2s, color .2s, transform .25s cubic-bezier(0.16,1,0.3,1);
   }
-  .btn-ghost:hover { border-color: #ffffff30; color: var(--text); }
-
-  /* product card on right */
-  .hero-right {
-    animation: fadeUp .5s .2s ease both;
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.25);
+    color: var(--text);
+    transform: translateY(-2px);
   }
 
+  /* ── HERO RIGHT — Product card ── */
   .product-card {
     background: var(--surface);
-    border: 1px solid var(--border);
     border-radius: 24px;
     padding: 36px;
     position: relative; overflow: hidden;
-    transition: border-color .25s, transform .25s;
+    transition: transform .35s cubic-bezier(0.16,1,0.3,1),
+                box-shadow .35s cubic-bezier(0.16,1,0.3,1);
+    /* Static border via box-shadow inset; animated gradient border on hover via ::before */
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.07);
   }
-  .product-card::before {
+
+  /* Top shimmer line — always visible */
+  .product-card::after {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, #2D6BE430, transparent);
+    background: linear-gradient(90deg, transparent, rgba(45,107,228,0.35), transparent);
+    pointer-events: none;
+  }
+
+  /* Animated conic gradient border — shown on hover */
+  .product-card::before {
+    content: '';
+    position: absolute; inset: -1px;
+    border-radius: 25px;
+    background: conic-gradient(
+      from var(--angle),
+      transparent 0deg,
+      rgba(45,107,228,0.6) 60deg,
+      rgba(100,160,255,0.4) 120deg,
+      transparent 180deg
+    );
+    opacity: 0;
+    transition: opacity .35s ease;
+    pointer-events: none;
+    z-index: -1;
+    animation: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .product-card:hover::before {
+      opacity: 1;
+      animation: spin-angle 3s linear infinite;
+    }
   }
   .product-card:hover {
-    border-color: #2D6BE440;
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: inset 0 0 0 1px rgba(45,107,228,0.3),
+                0 20px 60px rgba(0,0,0,0.4),
+                0 0 40px rgba(45,107,228,0.08);
+  }
+
+  @keyframes spin-angle {
+    to { --angle: 360deg; }
   }
 
   .card-status {
@@ -145,6 +274,14 @@
     content: '';
     width: 6px; height: 6px; background: #4ade80; border-radius: 50%;
     display: inline-block;
+    box-shadow: 0 0 8px rgba(74,222,128,0.6);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .card-status::before { animation: pulse-status 2s ease-in-out infinite; }
+  }
+  @keyframes pulse-status {
+    0%, 100% { box-shadow: 0 0 6px rgba(74,222,128,0.6); }
+    50%       { box-shadow: 0 0 14px rgba(74,222,128,0.9), 0 0 28px rgba(74,222,128,0.3); }
   }
 
   .product-name {
@@ -164,70 +301,101 @@
     margin-bottom: 28px;
   }
   .tag {
-    background: #ffffff08; border: 1px solid #ffffff10;
+    background: #ffffff06; border: 1px solid #ffffff10;
     padding: 5px 12px; border-radius: 100px;
     font-size: 12px; color: var(--muted);
+    transition: border-color .2s, color .2s;
   }
+  .tag:hover { border-color: rgba(45,107,228,0.35); color: var(--text); }
 
   .card-link {
-    display: flex; align-items: center; gap: 8px;
+    display: inline-flex; align-items: center; gap: 8px;
     font-size: 14px; font-weight: 600; color: var(--blue);
     text-decoration: none;
-    transition: gap .2s;
+    transition: gap .2s ease, opacity .2s;
   }
-  .card-link:hover { gap: 12px; }
+  .card-link:hover { gap: 14px; opacity: .8; }
 
   /* ── STATS ── */
+  .stats-section {
+    padding: 0 48px;
+  }
   .stats {
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-    padding: 60px 40px;
+    padding: 60px 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 0;
     text-align: center;
     max-width: 900px; margin: 0 auto;
   }
   .stat {
-    padding: 20px;
+    padding: 24px 20px;
     border-right: 1px solid var(--border);
+    transition: background .25s;
   }
   .stat:last-child { border-right: none; }
+  .stat:hover { background: rgba(255,255,255,0.02); }
+
   .stat-num {
     font-family: 'Syne', sans-serif;
-    font-size: 40px; font-weight: 800;
+    font-size: 42px; font-weight: 800;
     color: var(--blue); letter-spacing: -1px;
+    line-height: 1;
   }
   .stat-label {
-    font-size: 13px; color: var(--muted); margin-top: 4px;
+    font-size: 13px; color: var(--muted); margin-top: 8px;
+    letter-spacing: 0.2px;
   }
 
   /* ── FOOTER ── */
   footer {
     border-top: 1px solid var(--border);
-    padding: 30px 40px;
+    padding: 32px 48px;
     display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 12px;
   }
   footer .logo {
-    font-family: 'Syne'; font-size: 16px; font-weight: 800;
+    font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800;
   }
   footer .logo span { color: var(--blue); }
   footer p { font-size: 13px; color: #444; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* ── SCROLL REVEAL ── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .6s cubic-bezier(0.16,1,0.3,1),
+                transform .6s cubic-bezier(0.16,1,0.3,1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .orb { display: none; }
   }
 
+  /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
-    nav { padding: 16px 20px; }
-    .hero { padding: 100px 20px 60px; }
+    nav, nav.scrolled { padding: 16px 20px; }
+    .hero { padding: 110px 20px 70px; }
     .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .stats-section { padding: 0 20px; }
     .stats { grid-template-columns: repeat(2, 1fr); }
     .stat { border-right: none; border-bottom: 1px solid var(--border); }
     .stat:last-child { border-bottom: none; }
-    footer { flex-direction: column; text-align: center; }
+    .stat:nth-child(odd) { border-right: 1px solid var(--border); }
+    footer { flex-direction: column; text-align: center; padding: 24px 20px; }
+    .orb-2, .orb-3 { display: none; }
+    .orb-1 { width: 400px; height: 400px; }
   }
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
@@ -236,21 +404,35 @@
 <body>
 
 <!-- NAV -->
-<nav>
+<nav id="nav">
   <div class="nav-logo">Apex<span>.</span></div>
+  <a href="mailto:jerry@apexxholdings.com" class="nav-contact">Get in touch</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
+  <!-- Background orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
   <div class="hero-inner">
+    <!-- LEFT -->
     <div class="hero-left">
-      <div class="badge">Apex Holdings Group LLC</div>
+      <div class="badge" data-reveal style="--reveal-delay:0ms">
+        <span class="badge-dot"></span>
+        Apex Holdings Group LLC
+      </div>
 
-      <h1>We build products<br>people <span>actually use.</span></h1>
+      <h1 data-reveal style="--reveal-delay:80ms">
+        We build products<br>people <span>actually use.</span>
+      </h1>
 
-      <p class="hero-sub">High-impact AI products built for real people — not pitch decks. Based in New Jersey, shipping in 2025.</p>
+      <p class="hero-sub" data-reveal style="--reveal-delay:160ms">
+        High-impact AI products built for real people — not pitch decks. Based in New Jersey, shipping in 2025.
+      </p>
 
-      <div class="hero-links">
+      <div class="hero-links" data-reveal style="--reveal-delay:240ms">
         <a href="pl.index.html" class="btn-primary">
           View PureLabel →
         </a>
@@ -260,7 +442,8 @@
       </div>
     </div>
 
-    <div class="hero-right">
+    <!-- RIGHT -->
+    <div class="hero-right" data-reveal style="--reveal-delay:180ms">
       <div class="product-card">
         <div class="card-status">In Development</div>
 
@@ -273,7 +456,7 @@
         <div class="product-tags">
           <span class="tag">React Native</span>
           <span class="tag">AI-Powered</span>
-          <span class="tag">iOS & Android</span>
+          <span class="tag">iOS &amp; Android</span>
           <span class="tag">Barcode Scanning</span>
         </div>
 
@@ -286,26 +469,121 @@
 </section>
 
 <!-- STATS -->
-<div class="stats">
-  <div class="stat">
-    <div class="stat-num">1M+</div>
-    <div class="stat-label">Products in database</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">&lt;3s</div>
-    <div class="stat-label">Scan to result</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">100%</div>
-    <div class="stat-label">Transparency</div>
+<div class="stats-section">
+  <div class="stats">
+    <div class="stat" data-reveal style="--reveal-delay:0ms">
+      <div class="stat-num" data-target="1" data-suffix="M+">1M+</div>
+      <div class="stat-label">Products in database</div>
+    </div>
+    <div class="stat" data-reveal style="--reveal-delay:80ms">
+      <div class="stat-num" data-prefix="&lt;" data-target="3" data-suffix="s">&lt;3s</div>
+      <div class="stat-label">Scan to result</div>
+    </div>
+    <div class="stat" data-reveal style="--reveal-delay:160ms">
+      <div class="stat-num" data-target="100" data-suffix="%">100%</div>
+      <div class="stat-label">Transparency</div>
+    </div>
   </div>
 </div>
 
 <!-- FOOTER -->
-<footer>
+<footer data-reveal style="--reveal-delay:0ms">
   <div class="logo">Apex<span>.</span></div>
   <p>© 2025 Apex Holdings Group LLC · Fanwood, NJ</p>
 </footer>
 
+<script>
+(function () {
+  'use strict';
+
+  /* ── Nav scroll state ── */
+  var nav = document.getElementById('nav');
+  var ticking = false;
+
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        if (window.scrollY > 20) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ── Scroll reveal via IntersectionObserver ── */
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!prefersReduced && 'IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -60px 0px'
+    });
+
+    document.querySelectorAll('[data-reveal]').forEach(function (el) {
+      revealObserver.observe(el);
+    });
+  } else {
+    /* Reduced motion or no IO support: reveal everything immediately */
+    document.querySelectorAll('[data-reveal]').forEach(function (el) {
+      el.classList.add('is-visible');
+    });
+  }
+
+  /* ── Animated counters ── */
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  }
+
+  function animateCounter(el) {
+    var target = parseInt(el.getAttribute('data-target'), 10);
+    var suffix = el.getAttribute('data-suffix') || '';
+    /* data-prefix stored as attribute value — safe to read as text */
+    var prefix = el.getAttribute('data-prefix') || '';
+    var duration = 1400;
+    var start = null;
+
+    function step(timestamp) {
+      if (!start) start = timestamp;
+      var elapsed = timestamp - start;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = easeOutExpo(progress);
+      var current = Math.round(eased * target);
+      el.textContent = prefix + current + suffix;
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    }
+    window.requestAnimationFrame(step);
+  }
+
+  if (!prefersReduced && 'IntersectionObserver' in window) {
+    var counterObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('[data-target]').forEach(function (el) {
+      counterObserver.observe(el);
+    });
+  }
+
+})();
+</script>
 </body>
 </html>

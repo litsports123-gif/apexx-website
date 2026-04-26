@@ -3,484 +3,309 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Apex Holdings — Jerry Rodriguez</title>
+<title>Apex Holdings Group — We Build What People Use</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-:root{
-  --blue:#2D6BE4;
-  --bg:#000;
-  --text:#f5f5f7;
-  --muted:#86868b;
-  --surface:#1d1d1f;
-  --border:rgba(255,255,255,.08);
-}
+  :root {
+    --blue: #2D6BE4;
+    --bg: #080810;
+    --surface: #0f0f1a;
+    --border: #ffffff10;
+    --text: #f0f0f0;
+    --muted: #777;
+  }
 
-html{scroll-behavior:smooth;}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
 
-body{
-  font-family:'DM Sans',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    background: #080810cc;
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--blue); }
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  height:52px;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 22px;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:saturate(180%) blur(20px);
-  -webkit-backdrop-filter:saturate(180%) blur(20px);
-  border-bottom:1px solid var(--border);
-}
-.nav-logo{
-  font-size:17px;font-weight:600;letter-spacing:-.3px;
-  color:var(--text);text-decoration:none;
-}
-.nav-logo em{color:var(--blue);font-style:normal;}
-.nav-links{display:flex;align-items:center;gap:8px;}
-.nav-link{
-  font-size:13px;color:rgba(255,255,255,.6);text-decoration:none;
-  padding:6px 12px;border-radius:8px;font-weight:400;
-  transition:color .2s,background .2s;
-}
-.nav-link:hover{color:var(--text);background:rgba(255,255,255,.06);}
-.nav-link.cta{
-  background:var(--blue);color:white;font-weight:500;
-  transition:opacity .2s;
-}
-.nav-link.cta:hover{opacity:.85;}
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 120px 40px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -30%; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px; border-radius: 50%;
+    background: radial-gradient(circle, #2D6BE412, transparent 65%);
+    pointer-events: none;
+  }
 
-/* ── HERO ── */
-.hero{
-  height:100svh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;
-  position:relative;overflow:hidden;
-  padding:80px 24px 0;
-}
+  .hero-inner {
+    max-width: 1000px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
 
-.aurora{
-  position:absolute;inset:0;z-index:0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%,#1a3a7a18,transparent),
-    radial-gradient(ellipse 50% 40% at 20% 100%,#2D6BE412,transparent),
-    radial-gradient(ellipse 40% 50% at 80% 80%,#0a1f5010,transparent);
-  animation:aurora 12s ease-in-out infinite alternate;
-}
-@keyframes aurora{0%{opacity:.6;transform:scale(1);}100%{opacity:1;transform:scale(1.05);}}
+  .hero-left {}
 
-.hero-grid{
-  position:absolute;inset:0;z-index:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:80px 80px;
-  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black,transparent);
-}
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #ffffff08; border: 1px solid #ffffff12;
+    padding: 5px 14px; border-radius: 100px;
+    font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--muted); margin-bottom: 28px;
+    animation: fadeUp .5s ease both;
+  }
 
-.hero-inner{position:relative;z-index:1;max-width:900px;}
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 800; letter-spacing: -2px;
+    line-height: 1.02;
+    animation: fadeUp .5s .1s ease both;
+  }
+  h1 span { color: var(--blue); }
 
-.hero-eyebrow{
-  font-size:14px;font-weight:400;color:var(--blue);letter-spacing:.5px;
-  margin-bottom:24px;
-  opacity:0;animation:fadeUp .8s .1s ease forwards;
-}
+  .hero-sub {
+    margin-top: 20px; color: var(--muted);
+    font-size: 17px; line-height: 1.65;
+    max-width: 400px;
+    animation: fadeUp .5s .2s ease both;
+  }
 
-.hero-title{
-  font-family:'Instrument Serif';
-  font-size:clamp(52px,8vw,104px);
-  font-weight:400;line-height:1.02;letter-spacing:-.5px;
-  margin-bottom:28px;
-  opacity:0;animation:fadeUp .9s .25s ease forwards;
-}
-.hero-title em{
-  font-style:italic;
-  background:linear-gradient(135deg,#7eb3ff,var(--blue),#4a8aff);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
+  .hero-links {
+    margin-top: 36px;
+    display: flex; gap: 12px; flex-wrap: wrap;
+    animation: fadeUp .5s .3s ease both;
+  }
+  .btn-primary {
+    background: var(--blue); color: white;
+    padding: 14px 24px; border-radius: 10px;
+    font-family: 'DM Sans'; font-size: 15px; font-weight: 600;
+    text-decoration: none; transition: opacity .2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { opacity: .85; }
+  .btn-ghost {
+    background: transparent; color: var(--muted);
+    padding: 14px 24px; border-radius: 10px;
+    border: 1px solid var(--border);
+    font-family: 'DM Sans'; font-size: 15px; font-weight: 500;
+    text-decoration: none; transition: border-color .2s, color .2s;
+  }
+  .btn-ghost:hover { border-color: #ffffff30; color: var(--text); }
 
-.hero-sub{
-  font-size:clamp(16px,2vw,21px);font-weight:300;color:var(--muted);
-  line-height:1.6;max-width:600px;margin:0 auto 40px;
-  opacity:0;animation:fadeUp .8s .4s ease forwards;
-}
+  /* product card on right */
+  .hero-right {
+    animation: fadeUp .5s .2s ease both;
+  }
 
-.hero-actions{
-  display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;
-  opacity:0;animation:fadeUp .8s .55s ease forwards;
-}
+  .product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px;
+    position: relative; overflow: hidden;
+    transition: border-color .25s, transform .25s;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, #2D6BE430, transparent);
+  }
+  .product-card:hover {
+    border-color: #2D6BE440;
+    transform: translateY(-4px);
+  }
 
-.btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:14px 26px;border-radius:980px;
-  font-family:'DM Sans';font-size:16px;font-weight:500;
-  text-decoration:none;transition:all .25s;letter-spacing:-.1px;
-}
-.btn-blue{background:var(--blue);color:white;}
-.btn-blue:hover{background:#3d7bf5;transform:scale(1.02);}
-.btn-outline{
-  background:rgba(255,255,255,.07);color:var(--text);
-  border:1px solid rgba(255,255,255,.12);
-}
-.btn-outline:hover{background:rgba(255,255,255,.12);}
+  .card-status {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+    color: #4ade80; margin-bottom: 20px;
+  }
+  .card-status::before {
+    content: '';
+    width: 6px; height: 6px; background: #4ade80; border-radius: 50%;
+    display: inline-block;
+  }
 
-.hero-scroll{
-  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  opacity:0;animation:fadeIn 1s 1.4s ease forwards;z-index:1;
-}
-.hero-scroll span{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#444;}
-.hero-scroll-arrow{
-  width:28px;height:28px;border-radius:50%;
-  border:1px solid #333;
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;color:#444;
-  animation:bounce 2s ease-in-out infinite;
-}
-@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+  .product-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px; font-weight: 800;
+    letter-spacing: -1px; margin-bottom: 12px;
+  }
+  .product-name span { color: var(--blue); }
 
-/* ── FEATURE ROWS ── */
-.feature-row{
-  min-height:100svh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;
-  padding:120px 24px;
-  position:relative;overflow:hidden;
-  border-top:1px solid var(--border);
-}
+  .product-desc {
+    color: var(--muted); font-size: 15px; line-height: 1.65;
+    margin-bottom: 28px;
+  }
 
-.feature-label{
-  font-size:13px;font-weight:500;color:var(--blue);
-  letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .9s ease,transform .9s ease;
-}
-.feature-label.vis{opacity:1;transform:none;}
+  .product-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 28px;
+  }
+  .tag {
+    background: #ffffff08; border: 1px solid #ffffff10;
+    padding: 5px 12px; border-radius: 100px;
+    font-size: 12px; color: var(--muted);
+  }
 
-.feature-headline{
-  font-family:'Instrument Serif';
-  font-size:clamp(40px,6vw,80px);
-  font-weight:400;line-height:1.05;letter-spacing:-.5px;
-  max-width:800px;margin:0 auto 24px;
-  opacity:0;transform:translateY(24px);
-  transition:opacity .9s .1s ease,transform .9s .1s ease;
-}
-.feature-headline.vis{opacity:1;transform:none;}
-.feature-headline em{font-style:italic;color:#7eb3ff;}
+  .card-link {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; color: var(--blue);
+    text-decoration: none;
+    transition: gap .2s;
+  }
+  .card-link:hover { gap: 12px; }
 
-.feature-body{
-  font-size:clamp(16px,1.8vw,21px);font-weight:300;color:var(--muted);
-  line-height:1.65;max-width:560px;margin:0 auto 48px;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .9s .2s ease,transform .9s .2s ease;
-}
-.feature-body.vis{opacity:1;transform:none;}
+  /* ── STATS ── */
+  .stats {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    text-align: center;
+    max-width: 900px; margin: 0 auto;
+  }
+  .stat {
+    padding: 20px;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 40px; font-weight: 800;
+    color: var(--blue); letter-spacing: -1px;
+  }
+  .stat-label {
+    font-size: 13px; color: var(--muted); margin-top: 4px;
+  }
 
-/* product showcase */
-.product-showcase{
-  max-width:1100px;margin:0 auto;
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:20px;padding:0 24px;width:100%;
-  opacity:0;transform:translateY(30px);
-  transition:opacity .9s .3s ease,transform .9s .3s ease;
-}
-.product-showcase.vis{opacity:1;transform:none;}
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  footer .logo {
+    font-family: 'Syne'; font-size: 16px; font-weight: 800;
+  }
+  footer .logo span { color: var(--blue); }
+  footer p { font-size: 13px; color: #444; }
 
-.showcase-card{
-  background:var(--surface);
-  border-radius:28px;padding:52px 44px;
-  position:relative;overflow:hidden;
-  text-align:left;text-decoration:none;color:inherit;
-  display:block;
-  transition:transform .35s cubic-bezier(.25,.46,.45,.94);
-  border:1px solid rgba(255,255,255,.06);
-}
-.showcase-card:hover{transform:scale(1.02);}
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-.card-glow{
-  position:absolute;top:-60px;right:-60px;
-  width:200px;height:200px;border-radius:50%;
-  background:radial-gradient(circle,#2D6BE420,transparent 70%);
-  pointer-events:none;
-}
-
-.sc-tag{
-  font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;
-  color:#4ade80;margin-bottom:16px;
-  display:flex;align-items:center;gap:6px;
-}
-.sc-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;}
-.sc-tag.amber{color:#f59e0b;}
-.sc-tag.amber::before{background:#f59e0b;}
-
-.sc-name{
-  font-family:'Instrument Serif';
-  font-size:clamp(36px,4vw,56px);
-  line-height:1;letter-spacing:-.5px;margin-bottom:16px;
-}
-.sc-name span{color:var(--blue);}
-
-.sc-desc{
-  font-size:15px;color:var(--muted);line-height:1.65;
-  font-weight:300;margin-bottom:32px;max-width:340px;
-}
-
-.sc-link{
-  font-size:15px;font-weight:500;color:var(--blue);
-  display:inline-flex;align-items:center;gap:6px;
-  transition:gap .2s;
-}
-.showcase-card:hover .sc-link{gap:10px;}
-
-/* stats */
-.stat-display{
-  display:flex;align-items:center;justify-content:center;gap:80px;
-  flex-wrap:wrap;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .9s .3s ease,transform .9s .3s ease;
-}
-.stat-display.vis{opacity:1;transform:none;}
-
-.stat-item{text-align:center;}
-.stat-big{
-  font-family:'Instrument Serif';
-  font-size:clamp(52px,8vw,96px);line-height:1;
-  background:linear-gradient(135deg,#fff,#888);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.stat-big em{
-  font-style:italic;
-  background:linear-gradient(135deg,#7eb3ff,var(--blue));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.stat-caption{font-size:14px;color:var(--muted);margin-top:8px;letter-spacing:.3px;}
-
-/* ── ABOUT ── */
-.about-strip{
-  border-top:1px solid var(--border);
-  padding:120px 24px;text-align:center;
-}
-
-.about-name{
-  font-family:'Instrument Serif';
-  font-size:clamp(36px,5vw,64px);font-weight:400;letter-spacing:-.5px;
-  margin-bottom:8px;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .9s ease,transform .9s ease;
-}
-.about-name.vis{opacity:1;transform:none;}
-
-.about-role{
-  font-size:14px;font-weight:500;color:var(--blue);
-  letter-spacing:2px;text-transform:uppercase;margin-bottom:36px;
-  opacity:0;transform:translateY(16px);
-  transition:opacity .9s .1s ease,transform .9s .1s ease;
-}
-.about-role.vis{opacity:1;transform:none;}
-
-.about-bio{
-  font-size:clamp(17px,2vw,22px);font-weight:300;color:var(--muted);
-  line-height:1.75;max-width:660px;margin:0 auto 48px;
-  opacity:0;transform:translateY(16px);
-  transition:opacity .9s .2s ease,transform .9s .2s ease;
-}
-.about-bio.vis{opacity:1;transform:none;}
-.about-bio strong{color:var(--text);font-weight:500;}
-
-.chips{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
-  opacity:0;transform:translateY(16px);
-  transition:opacity .9s .3s ease,transform .9s .3s ease;
-}
-.chips.vis{opacity:1;transform:none;}
-.chip{
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
-  padding:8px 18px;border-radius:980px;
-  font-size:14px;color:#aaa;font-weight:400;
-}
-
-/* ── CONTACT ── */
-.contact-section{
-  border-top:1px solid var(--border);
-  padding:120px 24px;text-align:center;
-}
-
-.contact-headline{
-  font-family:'Instrument Serif';
-  font-size:clamp(40px,6vw,72px);font-weight:400;letter-spacing:-.5px;
-  margin-bottom:12px;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .9s ease,transform .9s ease;
-}
-.contact-headline.vis{opacity:1;transform:none;}
-.contact-headline em{font-style:italic;color:#7eb3ff;}
-
-.contact-sub{
-  font-size:18px;font-weight:300;color:var(--muted);margin-bottom:36px;
-  opacity:0;transform:translateY(16px);
-  transition:opacity .9s .1s ease,transform .9s .1s ease;
-}
-.contact-sub.vis{opacity:1;transform:none;}
-
-.contact-email{
-  font-family:'Instrument Serif';
-  font-size:clamp(22px,3vw,36px);
-  color:var(--text);text-decoration:none;
-  border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:4px;
-  display:inline-block;
-  opacity:0;transform:translateY(16px);
-  transition:opacity .9s .2s ease,transform .9s .2s ease,color .2s,border-color .2s;
-}
-.contact-email.vis{opacity:1;transform:none;}
-.contact-email:hover{color:#7eb3ff;border-color:#7eb3ff;}
-
-/* ── FOOTER ── */
-footer{
-  border-top:1px solid var(--border);
-  padding:20px 24px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:12px;
-}
-.footer-logo{font-size:14px;font-weight:600;color:rgba(255,255,255,.3);}
-.footer-logo em{color:var(--blue);font-style:normal;}
-footer p{font-size:12px;color:#333;}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-
-@media(max-width:768px){
-  .nav-link:not(.cta){display:none;}
-  .product-showcase{grid-template-columns:1fr;padding:0 0;}
-  .showcase-card{padding:36px 28px;}
-  .stat-display{gap:40px;}
-  footer{flex-direction:column;text-align:center;}
-}
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+    footer { flex-direction: column; text-align: center; }
+  }
 </style>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Apex<em>.</em></a>
-  <div class="nav-links">
-    <a href="#about" class="nav-link">About</a>
-    <a href="#products" class="nav-link">Products</a>
-    <a href="pl.index.html" class="nav-link cta">PureLabel →</a>
-  </div>
+  <div class="nav-logo">Apex<span>.</span></div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="aurora"></div>
-  <div class="hero-grid"></div>
   <div class="hero-inner">
-    <p class="hero-eyebrow">Apex Holdings Group LLC</p>
-    <h1 class="hero-title">Building products<br>that <em>actually matter.</em></h1>
-    <p class="hero-sub">AI-powered software designed around real people — not investors. Honest, fast, and built to last.</p>
-    <div class="hero-actions">
-      <a href="#products" class="btn btn-blue">See What We're Building</a>
-      <a href="#about" class="btn btn-outline">About the CEO</a>
+    <div class="hero-left">
+      <div class="badge">Apex Holdings Group LLC</div>
+
+      <h1>We build products<br>people <span>actually use.</span></h1>
+
+      <p class="hero-sub">High-impact AI products built for real people — not pitch decks. Based in New Jersey, shipping in 2025.</p>
+
+      <div class="hero-links">
+        <a href="pl.index.html" class="btn-primary">
+          View PureLabel →
+        </a>
+        <a href="mailto:jerry@apexxholdings.com" class="btn-ghost">
+          Get in touch
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="hero-scroll-arrow">↓</div>
-  </div>
-</section>
 
-<!-- PRODUCTS -->
-<section class="feature-row" id="products">
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,#2D6BE410,transparent);pointer-events:none;"></div>
+    <div class="hero-right">
+      <div class="product-card">
+        <div class="card-status">In Development</div>
 
-  <p class="feature-label">Our Work</p>
-  <h2 class="feature-headline">Software that<br>tells the <em>truth.</em></h2>
-  <p class="feature-body">Every product starts with one question: what are people not being told? Then we build the thing that tells them.</p>
+        <div class="product-name">Pure<span>Label</span></div>
 
-  <div class="product-showcase">
-    <a href="pl.index.html" class="showcase-card">
-      <div class="card-glow"></div>
-      <div class="sc-tag">Live — Join Waitlist</div>
-      <div class="sc-name">Pure<span>Label</span></div>
-      <p class="sc-desc">Scan any food product. Instantly see the ingredients, additives, and health impact the packaging buries.</p>
-      <span class="sc-link">Join the waitlist →</span>
-    </a>
-    <div class="showcase-card" style="opacity:.35;pointer-events:none;background:#0a0a0a;">
-      <div class="sc-tag amber">Coming Soon</div>
-      <div class="sc-name" style="color:#333;">Next<span style="color:#1a3060;"> Drop</span></div>
-      <p class="sc-desc">Something new is in the works. Stay close.</p>
-      <span class="sc-link" style="color:#2a2a2a;">In stealth →</span>
+        <p class="product-desc">
+          Scan any food product and instantly expose what's really inside — hidden chemicals, misleading labels, and everything the packaging doesn't tell you.
+        </p>
+
+        <div class="product-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">AI-Powered</span>
+          <span class="tag">iOS & Android</span>
+          <span class="tag">Barcode Scanning</span>
+        </div>
+
+        <a href="pl.index.html" class="card-link">
+          Join the waitlist →
+        </a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- STATS -->
-<section class="feature-row">
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 30% 50%,#2D6BE40c,transparent);pointer-events:none;"></div>
-
-  <p class="feature-label">PureLabel</p>
-  <h2 class="feature-headline">The food industry<br>has been <em>hiding things.</em></h2>
-  <p class="feature-body">Over 10,000 additives are approved in the US food supply and most people have never heard of a single one. PureLabel changes that.</p>
-
-  <div class="stat-display">
-    <div class="stat-item">
-      <div class="stat-big"><em>1M</em>+</div>
-      <div class="stat-caption">Products in database</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-big"><em>3</em>s</div>
-      <div class="stat-caption">Scan to result</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-big"><em>0</em></div>
-      <div class="stat-caption">Hidden agendas</div>
-    </div>
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">1M+</div>
+    <div class="stat-label">Products in database</div>
   </div>
-</section>
-
-<!-- ABOUT -->
-<section class="about-strip" id="about">
-  <p class="about-name">Jerry Rodriguez Jr.</p>
-  <p class="about-role">Founder & CEO · Apex Holdings Group</p>
-  <p class="about-bio">
-    <strong>Penn State graduate.</strong> Developer. Someone who saw a gap between what technology could do and what was actually being built — and decided to close it himself. Based in New Jersey, shipping products that treat people like they're intelligent.
-  </p>
-  <div class="chips">
-    <span class="chip">Penn State Alumni</span>
-    <span class="chip">AI Products</span>
-    <span class="chip">New Jersey</span>
+  <div class="stat">
+    <div class="stat-num">&lt;3s</div>
+    <div class="stat-label">Scan to result</div>
   </div>
-</section>
-
-<!-- CONTACT -->
-<section class="contact-section">
-  <h2 class="contact-headline">Want to <em>connect?</em></h2>
-  <p class="contact-sub">Reach out — always open to a conversation.</p>
-  <a href="mailto:info@apexxholdings.com" class="contact-email">info@apexxholdings.com</a>
-</section>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Transparency</div>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Apex<em>.</em></div>
-  <p>© 2026 Apex Holdings Group LLC · All rights reserved</p>
+  <div class="logo">Apex<span>.</span></div>
+  <p>© 2025 Apex Holdings Group LLC · Fanwood, NJ</p>
 </footer>
 
-<script>
-const els = document.querySelectorAll(
-  '.feature-label,.feature-headline,.feature-body,.product-showcase,.stat-display,.about-name,.about-role,.about-bio,.chips,.contact-headline,.contact-sub,.contact-email'
-);
-const obs = new IntersectionObserver(e=>{
-  e.forEach(el=>{ if(el.isIntersecting) el.target.classList.add('vis'); });
-},{threshold:.15});
-els.forEach(el=>obs.observe(el));
-</script>
 </body>
 </html>

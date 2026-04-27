@@ -102,7 +102,7 @@ nav.scrolled {
   position: relative; overflow: hidden;
 }
 
-/* Floating glow orbs — 4 total, bigger + blurrier (blur 120px) */
+/* Floating glow orbs */
 .orb {
   position: absolute;
   border-radius: 50%;
@@ -186,7 +186,7 @@ nav.scrolled {
   align-items: flex-start;
 }
 
-/* Badge — invisible until JS reveals it */
+/* Badge */
 .badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: #ffffff08; border: 1px solid rgba(255,255,255,0.18);
@@ -228,7 +228,7 @@ nav.scrolled {
 .wordmark-text { color: var(--text); }
 .wordmark-dot  { color: var(--blue); font-size: 1.1em; }
 
-/* Tagline — words stagger in */
+/* Tagline */
 .hero-tagline-main {
   font-family: 'Syne', sans-serif;
   font-size: clamp(48px, 7vw, 90px);
@@ -248,7 +248,6 @@ nav.scrolled {
   transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1),
               transform 0.5s cubic-bezier(0.16,1,0.3,1);
 }
-/* Gradient highlight on the last tagline word */
 .tagline-word:last-child {
   background: linear-gradient(90deg, #4d8ef5 0%, #9ec3ff 100%);
   -webkit-background-clip: text;
@@ -331,7 +330,6 @@ nav.scrolled {
     animation: card-float 6s ease-in-out infinite;
     animation-delay: 1s;
   }
-  /* Pause float on hover so translateY lift doesn't fight */
   .product-card-float:hover {
     animation-play-state: paused;
   }
@@ -448,7 +446,6 @@ nav.scrolled {
     inset 0 0 20px rgba(0,0,0,0.5),
     0 20px 60px rgba(0,0,0,0.6);
 }
-/* Speaker notch at top */
 .phone-frame::before {
   content: '';
   position: absolute;
@@ -460,7 +457,6 @@ nav.scrolled {
   border-radius: 3px;
   z-index: 4;
 }
-/* Screen glow */
 .phone-screen {
   position: absolute;
   inset: 20px 8px 8px;
@@ -469,7 +465,6 @@ nav.scrolled {
   overflow: hidden;
   border: 1px solid rgba(45,107,228,0.1);
 }
-/* Scan corners inside phone */
 .p-corner {
   position: absolute;
   width: 12px; height: 12px;
@@ -480,7 +475,6 @@ nav.scrolled {
 .p-corner-tr { top: 24px; right: 16px; border-top: 2px solid var(--blue); border-right: 2px solid var(--blue); border-radius: 0 2px 0 0; }
 .p-corner-bl { bottom: 24px; left: 16px; border-bottom: 2px solid var(--blue); border-left: 2px solid var(--blue); border-radius: 0 0 0 2px; }
 .p-corner-br { bottom: 24px; right: 16px; border-bottom: 2px solid var(--blue); border-right: 2px solid var(--blue); border-radius: 0 0 2px 0; }
-/* Phone scan line */
 .phone-scan-line {
   position: absolute;
   left: 8px; right: 8px;
@@ -501,7 +495,6 @@ nav.scrolled {
   95%  {             opacity: 1; }
   100% { top: 100%; opacity: 0; }
 }
-/* Scanning label at bottom of phone */
 .phone-scan-label {
   position: absolute;
   bottom: 10px; left: 0; right: 0;
@@ -511,7 +504,6 @@ nav.scrolled {
   font-family: 'DM Sans', sans-serif;
   z-index: 3;
 }
-/* Mini barcode lines inside phone */
 .phone-barcodes {
   position: absolute;
   top: 50%; left: 50%;
@@ -650,6 +642,258 @@ nav.scrolled {
   filter: blur(0px);
 }
 
+/* ── SECTION SHARED CONTAINER ── */
+.section-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── PRODUCTS SECTION ── */
+.products-section {
+  padding: 120px 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.section-header {
+  margin-bottom: 64px;
+}
+.section-heading {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 480px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Products section cards — distinct class from hero .product-card */
+.pl-card {
+  background: #111827;
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: transform .35s cubic-bezier(0.16,1,0.3,1),
+              box-shadow .35s cubic-bezier(0.16,1,0.3,1);
+}
+.pl-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(45,107,228,0.06);
+}
+
+/* Top-glow border on the active PureLabel card */
+.pl-card--active::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #4d8ef5, transparent);
+  pointer-events: none;
+}
+
+.pl-card-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+.pl-card-status--live {
+  color: #4ade80;
+}
+.pl-card-status--live::before {
+  content: '';
+  width: 6px; height: 6px; background: #4ade80; border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px rgba(74,222,128,0.6);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pl-card-status--live::before {
+    animation: pulse-status 2s ease-in-out infinite;
+  }
+}
+.pl-card-status--soon {
+  color: var(--muted);
+}
+.pl-card-status--soon::before {
+  content: '';
+  width: 6px; height: 6px; background: var(--muted); border-radius: 50%;
+  display: inline-block;
+}
+
+.pl-card-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px; font-weight: 800;
+  letter-spacing: -0.8px;
+  margin-bottom: 14px;
+}
+.pl-card-name-accent { color: var(--blue); }
+
+.pl-card-desc {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.pl-card-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 28px;
+}
+
+.pl-card-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 600; color: var(--blue);
+  text-decoration: none;
+  transition: gap .2s ease, opacity .2s;
+}
+.pl-card-link:hover { gap: 14px; opacity: .8; }
+
+.pl-card-link--muted {
+  font-size: 14px; font-weight: 500;
+  color: var(--muted);
+  cursor: default;
+}
+
+/* ── PHILOSOPHY SECTION ── */
+.philosophy-section {
+  padding: 120px 48px;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+}
+
+.philosophy-row {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+.philosophy-item {
+  flex: 1;
+  border-left: 2px solid #4d8ef5;
+  padding-left: 20px;
+}
+
+.philosophy-num {
+  font-family: 'DM Sans', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #4d8ef5;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.philosophy-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.philosophy-body {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ── CONTACT / CTA SECTION ── */
+.contact-section {
+  padding: 120px 48px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Radial glow behind contact section */
+.contact-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse at center, rgba(45,107,228,0.18) 0%, rgba(45,107,228,0.06) 40%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contact-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.contact-heading {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 800;
+  letter-spacing: -2.5px;
+  line-height: 1.0;
+  margin-bottom: 20px;
+}
+
+.contact-sub {
+  font-size: 18px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 48px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--blue);
+  color: white;
+  padding: 18px 40px;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .25s cubic-bezier(0.16,1,0.3,1),
+              box-shadow .25s cubic-bezier(0.16,1,0.3,1),
+              opacity .2s;
+  box-shadow: 0 0 0 rgba(45,107,228,0);
+}
+.btn-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(45,107,228,0.5), 0 0 60px rgba(45,107,228,0.15);
+  opacity: .95;
+}
+
+.contact-note {
+  display: block;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #444;
+  letter-spacing: 0.2px;
+}
+
 /* ── FOOTER ── */
 .footer-rule {
   height: 1px;
@@ -716,6 +960,7 @@ footer .footer-copy { font-size: 13px; color: #444; }
   .footer-rule { transform: scaleX(1); transition: none; }
   .badge-dot { animation: none; }
   .card-status::before { animation: none; }
+  .pl-card-status--live::before { animation: none; }
 }
 
 /* ── RESPONSIVE ── */
@@ -724,21 +969,69 @@ footer .footer-copy { font-size: 13px; color: #444; }
   .wordmark { font-size: clamp(56px, 8vw, 90px); letter-spacing: -3px; }
   .hero-tagline-main { font-size: clamp(40px, 6vw, 70px); }
 }
+
 @media (max-width: 768px) {
   nav, nav.scrolled { padding: 16px 20px; }
+  .nav-logo { font-size: 18px; }
   .hero { padding: 110px 20px 70px; min-height: 100svh; }
-  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
-  .wordmark { font-size: clamp(64px, 18vw, 96px); letter-spacing: -3px; }
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 0;
+  }
+  .wordmark { font-size: clamp(48px, 12vw, 80px); letter-spacing: -3px; }
   .hero-tagline-main { font-size: clamp(40px, 12vw, 64px); letter-spacing: -1.5px; }
+  .hero-sub { font-size: 16px; max-width: 100%; }
+  .hero-links { flex-direction: column; width: 100%; }
+  .hero-links .btn-primary,
+  .hero-links .btn-ghost { width: 100%; justify-content: center; }
+
+  /* Disable float animation on mobile */
+  .product-card-float { animation: none !important; }
+  .phone-frame-wrap { margin: 0 auto; }
+
   footer {
     padding: 24px 20px;
     align-items: center;
   }
   .footer-row { flex-direction: column; text-align: center; gap: 8px; }
-  .orb-2, .orb-3, .orb-4 { display: none; }
+
+  /* Keep orb-1 and orb-2, hide orb-3 and orb-4 on tablets */
+  .orb-3, .orb-4 { display: none; }
   .orb-1 { width: 500px; height: 500px; }
+
   .stat-num { font-size: 30px; }
   .stat-item { padding: 0 40px; }
+
+  .products-section,
+  .philosophy-section,
+  .contact-section { padding: 80px 24px; }
+
+  .products-grid { grid-template-columns: 1fr; }
+
+  .philosophy-row { flex-direction: column; gap: 24px; }
+
+  .section-heading { letter-spacing: -1.5px; }
+}
+
+@media (max-width: 640px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .philosophy-row { flex-direction: column; gap: 24px; }
+}
+
+@media (max-width: 600px) {
+  nav, nav.scrolled { padding: 16px 20px; }
+  .nav-logo { font-size: 18px; }
+
+  .products-section,
+  .philosophy-section,
+  .contact-section { padding: 60px 20px; }
+
+  footer { padding: 24px 20px; flex-direction: column; text-align: center; gap: 12px; }
+  .footer-row { flex-direction: column; text-align: center; gap: 12px; }
+
+  /* Reduce to 2 orbs (orb-1, orb-2) for mobile performance */
+  .orb-3, .orb-4 { display: none; }
 }
 </style>
 </head>
@@ -765,14 +1058,13 @@ footer .footer-copy { font-size: 13px; color: #444; }
     <!-- LEFT -->
     <div class="hero-left" id="hero-left">
 
-      <!-- Wordmark rendered via DOM in JS -->
       <div class="wordmark" id="wordmark" aria-label="Apex.">
         <span class="wordmark-text" id="wordmark-text"></span><span class="wordmark-dot" id="wordmark-dot" style="display:none">.</span>
       </div>
 
       <div class="badge" id="hero-badge">
         <span class="badge-dot"></span>
-        AI Product Studio &middot; New Jersey &middot; Est. 2025
+        AI Product Studio &middot; New Jersey
       </div>
 
       <h1 class="hero-tagline-main" id="hero-tagline" aria-label="We build what people use."></h1>
@@ -792,7 +1084,6 @@ footer .footer-copy { font-size: 13px; color: #444; }
       <div class="product-card">
         <div class="card-status">In Development</div>
 
-        <!-- Phone frame with scan animation -->
         <div class="phone-frame-wrap" role="img" aria-label="PureLabel app scanning animation">
           <div class="phone-frame">
             <div class="phone-screen">
@@ -868,6 +1159,80 @@ footer .footer-copy { font-size: 13px; color: #444; }
     </div>
   </div>
 </div>
+
+<!-- PRODUCTS SECTION -->
+<section class="products-section">
+  <div class="section-inner">
+    <div class="section-header" data-reveal>
+      <h2 class="section-heading">What we ship.</h2>
+      <p class="section-sub">Products built for real people, not investors.</p>
+    </div>
+
+    <div class="products-grid">
+      <!-- PureLabel card -->
+      <div class="pl-card pl-card--active" data-reveal>
+        <div class="pl-card-status pl-card-status--live">Live / In Development</div>
+        <div class="pl-card-name">Pure<span class="pl-card-name-accent">Label</span></div>
+        <p class="pl-card-desc">Scan any food product. Instantly see what's really in it — hidden chemicals, misleading labels, AI ingredient breakdown.</p>
+        <div class="pl-card-tags">
+          <span class="tag">iOS</span>
+          <span class="tag">AI-Powered</span>
+          <span class="tag">Food Scanner</span>
+        </div>
+        <a href="pl.index.html" class="pl-card-link">View PureLabel &rarr;</a>
+      </div>
+
+      <!-- Next Product card -->
+      <div class="pl-card" data-reveal>
+        <div class="pl-card-status pl-card-status--soon">Coming Soon</div>
+        <div class="pl-card-name">Next Product</div>
+        <p class="pl-card-desc">Something new is in the works. Building in public — stay tuned.</p>
+        <div class="pl-card-tags">
+          <span class="tag">TBD</span>
+          <span class="tag">2025</span>
+        </div>
+        <span class="pl-card-link--muted">Stay tuned &rarr;</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY SECTION -->
+<section class="philosophy-section">
+  <div class="section-inner">
+    <div class="section-header" data-reveal>
+      <h2 class="section-heading">How we build.</h2>
+    </div>
+
+    <div class="philosophy-row">
+      <div class="philosophy-item" data-reveal>
+        <span class="philosophy-num">01</span>
+        <h3 class="philosophy-title">Real people first</h3>
+        <p class="philosophy-body">We don't build for pitch decks. We build for people who are actually frustrated by a real problem.</p>
+      </div>
+      <div class="philosophy-item" data-reveal>
+        <span class="philosophy-num">02</span>
+        <h3 class="philosophy-title">AI as a tool, not a gimmick</h3>
+        <p class="philosophy-body">Every AI feature in our products earns its place. If it doesn't make the product better, it's cut.</p>
+      </div>
+      <div class="philosophy-item" data-reveal>
+        <span class="philosophy-num">03</span>
+        <h3 class="philosophy-title">Ship, learn, iterate</h3>
+        <p class="philosophy-body">We launch fast, watch real users, and improve constantly. Perfect is the enemy of shipped.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+  <div class="contact-inner" data-reveal>
+    <h2 class="contact-heading">Let's talk.</h2>
+    <p class="contact-sub">Have an idea? Want to partner? Just want to say hi.</p>
+    <a href="mailto:jerry@apexxholdings.com" class="btn-cta">Get in touch &rarr;</a>
+    <span class="contact-note">Response within 24 hours.</span>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <div class="footer-rule" id="footer-rule" data-reveal></div>

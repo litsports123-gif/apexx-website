@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Apex Holdings Group — We Build What People Use</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
@@ -42,6 +44,18 @@ body::before {
   background-size: 28px 28px;
   pointer-events: none;
   z-index: 0;
+}
+
+/* ── GRAIN OVERLAY ── */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23grain)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 300px 300px;
 }
 
 /* ── NAV ── */
@@ -82,62 +96,82 @@ nav.scrolled {
 
 /* ── HERO ── */
 .hero {
-  min-height: 100vh;
+  min-height: 100svh;
   display: flex; align-items: center; justify-content: center;
   padding: 130px 48px 100px;
   position: relative; overflow: hidden;
 }
 
-/* Floating glow orbs */
+/* Floating glow orbs — 4 total, bigger + blurrier (blur 120px) */
 .orb {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
-}
-.orb-1 {
-  width: 700px; height: 700px;
-  top: -20%; left: 20%;
-  background: radial-gradient(circle, rgba(45,107,228,0.12) 0%, transparent 65%);
-  filter: blur(40px);
-}
-.orb-2 {
-  width: 500px; height: 500px;
-  top: 30%; right: -10%;
-  background: radial-gradient(circle, rgba(45,107,228,0.08) 0%, transparent 65%);
-  filter: blur(50px);
-}
-.orb-3 {
-  width: 400px; height: 400px;
-  bottom: -10%; left: 5%;
-  background: radial-gradient(circle, rgba(100,80,255,0.07) 0%, transparent 65%);
-  filter: blur(60px);
+  opacity: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .orb-1 { animation: float-a 22s ease-in-out infinite; }
-  .orb-2 { animation: float-b 28s ease-in-out infinite; }
-  .orb-3 { animation: float-c 18s ease-in-out infinite; }
+  .orb { animation-fill-mode: forwards; }
+  .orb-1 { animation: orb-fadein 1.5s ease 0.1s forwards, float-a 26s ease-in-out 1.6s infinite; }
+  .orb-2 { animation: orb-fadein 1.5s ease 0.2s forwards, float-b 28s ease-in-out 1.7s infinite; }
+  .orb-3 { animation: orb-fadein 1.5s ease 0.3s forwards, float-c 20s ease-in-out 1.8s infinite; }
+  .orb-4 { animation: orb-fadein 1.5s ease 0.4s forwards, float-d 28s ease-in-out 1.9s infinite; }
+}
+
+@keyframes orb-fadein {
+  to { opacity: 1; }
+}
+
+.orb-1 {
+  width: 900px; height: 900px;
+  top: -30%; left: 15%;
+  background: radial-gradient(circle, rgba(45,107,228,0.18) 0%, transparent 65%);
+  filter: blur(120px);
+}
+.orb-2 {
+  width: 700px; height: 700px;
+  top: 20%; right: -15%;
+  background: radial-gradient(circle, rgba(45,107,228,0.12) 0%, transparent 65%);
+  filter: blur(120px);
+}
+.orb-3 {
+  width: 600px; height: 600px;
+  bottom: -20%; left: -5%;
+  background: radial-gradient(circle, rgba(18,0,42,0.9) 0%, rgba(100,60,200,0.12) 50%, transparent 75%);
+  filter: blur(120px);
+}
+.orb-4 {
+  width: 500px; height: 500px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(10,20,70,0.55) 0%, rgba(15,30,80,0.1) 50%, transparent 75%);
+  filter: blur(120px);
 }
 
 @keyframes float-a {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(-40px, 30px) scale(1.05); }
-  66%       { transform: translate(30px, -20px) scale(0.97); }
+  33%       { transform: translate(-50px, 40px) scale(1.06); }
+  66%       { transform: translate(35px, -25px) scale(0.96); }
 }
 @keyframes float-b {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  40%       { transform: translate(30px, 40px) scale(1.08); }
-  70%       { transform: translate(-20px, -30px) scale(0.95); }
+  40%       { transform: translate(40px, 50px) scale(1.08); }
+  70%       { transform: translate(-25px, -35px) scale(0.94); }
 }
 @keyframes float-c {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(20px, -40px) scale(1.1); }
+  50%       { transform: translate(25px, -50px) scale(1.1); }
+}
+@keyframes float-d {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  35%       { transform: translate(calc(-50% + 30px), calc(-50% + 20px)) scale(1.12); }
+  70%       { transform: translate(calc(-50% - 20px), calc(-50% + 40px)) scale(0.92); }
 }
 
 .hero-inner {
   position: relative; z-index: 2;
-  max-width: 1100px;
+  max-width: 1140px;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -147,36 +181,25 @@ nav.scrolled {
 
 /* ── HERO LEFT ── */
 .hero-left {
-  opacity: 0;
-  transform: translateY(24px);
-}
-.hero-left.stagger-in {
-  animation: stagger-reveal 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
-}
-@keyframes stagger-reveal {
-  to { opacity: 1; transform: translateY(0); }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-/* Wordmark — rendered via DOM, so we style the text node wrapper */
-.wordmark {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(72px, 10vw, 120px);
-  font-weight: 800;
-  letter-spacing: -4px;
-  line-height: 0.9;
-  margin-bottom: 24px;
-  min-height: 1.8em;
-  display: flex; align-items: baseline; flex-wrap: nowrap;
-}
-.wordmark-text { color: var(--text); }
-.wordmark-dot  { color: var(--blue); }
-
+/* Badge — invisible until JS reveals it */
 .badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: #ffffff08; border: 1px solid #ffffff14;
   padding: 6px 16px; border-radius: 100px;
   font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
-  color: var(--muted); margin-bottom: 20px;
+  color: var(--muted); margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.badge.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 .badge-dot {
   width: 6px; height: 6px; border-radius: 50%;
@@ -191,15 +214,68 @@ nav.scrolled {
   50%       { opacity: 0.5; transform: scale(0.7); }
 }
 
-.hero-tagline {
+/* Wordmark */
+.wordmark {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(72px, 10vw, 120px);
+  font-weight: 800;
+  letter-spacing: -4px;
+  line-height: 0.9;
+  margin-bottom: 28px;
+  min-height: 1.8em;
+  display: flex; align-items: baseline; flex-wrap: nowrap;
+}
+.wordmark-text { color: var(--text); }
+.wordmark-dot  { color: var(--blue); font-size: 1.1em; }
+
+/* Tagline — words stagger in */
+.hero-tagline-main {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(48px, 7vw, 90px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.0;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em;
+  overflow: hidden;
+}
+.tagline-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1),
+              transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.tagline-word.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-sub {
   color: var(--muted);
   font-size: 17px; line-height: 1.7;
   max-width: 380px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.hero-sub.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .hero-links {
   margin-top: 38px;
   display: flex; gap: 12px; flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+}
+.hero-links.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 .btn-primary {
   background: var(--blue); color: white;
@@ -214,7 +290,7 @@ nav.scrolled {
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(45,107,228,0.35);
+  box-shadow: 0 8px 30px rgba(45,107,228,0.4);
   opacity: .9;
 }
 .btn-ghost {
@@ -232,13 +308,30 @@ nav.scrolled {
   transform: translateY(-2px);
 }
 
-/* ── HERO RIGHT — Product card ── */
-.hero-right {
+/* ── HERO RIGHT — Product card with float ── */
+.product-card-float {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateX(40px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+              transform 0.8s cubic-bezier(0.16,1,0.3,1);
 }
-.hero-right.stagger-in {
-  animation: stagger-reveal 0.7s cubic-bezier(0.16,1,0.3,1) 0.25s forwards;
+.product-card-float.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .product-card-float.visible {
+    animation: card-float 6s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+  /* Pause float on hover so translateY lift doesn't fight */
+  .product-card-float:hover {
+    animation-play-state: paused;
+  }
+}
+@keyframes card-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
 }
 
 .product-card {
@@ -310,90 +403,10 @@ nav.scrolled {
   to { --angle: 360deg; }
 }
 
-/* ── SCANNING ANIMATION ── */
-.scan-frame {
-  position: relative;
-  width: 100%;
-  height: 110px;
-  border-radius: 12px;
-  background: rgba(45,107,228,0.04);
-  border: 1px solid rgba(45,107,228,0.12);
-  overflow: hidden;
-  margin-bottom: 28px;
-}
-/* Corner brackets via box-shadow trick on pseudo-elements */
-.scan-corner {
-  position: absolute;
-  width: 14px; height: 14px;
-  pointer-events: none;
-}
-.scan-corner-tl {
-  top: 0; left: 0;
-  border-top: 2px solid var(--blue);
-  border-left: 2px solid var(--blue);
-  border-radius: 2px 0 0 0;
-}
-.scan-corner-tr {
-  top: 0; right: 0;
-  border-top: 2px solid var(--blue);
-  border-right: 2px solid var(--blue);
-  border-radius: 0 2px 0 0;
-}
-.scan-corner-bl {
-  bottom: 0; left: 0;
-  border-bottom: 2px solid var(--blue);
-  border-left: 2px solid var(--blue);
-  border-radius: 0 0 0 2px;
-}
-.scan-corner-br {
-  bottom: 0; right: 0;
-  border-bottom: 2px solid var(--blue);
-  border-right: 2px solid var(--blue);
-  border-radius: 0 0 2px 0;
-}
-.scan-line {
-  position: absolute;
-  left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--blue) 20%, rgba(100,160,255,0.9) 50%, var(--blue) 80%, transparent 100%);
-  box-shadow: 0 0 10px rgba(45,107,228,0.8), 0 0 24px rgba(45,107,228,0.4);
-  top: 0;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .scan-line {
-    animation: scan-move 2.4s cubic-bezier(0.45,0,0.55,1) infinite;
-  }
-}
-@keyframes scan-move {
-  0%   { top: 0%;   opacity: 0; }
-  5%   {             opacity: 1; }
-  95%  {             opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-.scan-label {
-  display: flex; align-items: center; justify-content: space-between;
-  position: absolute;
-  bottom: 8px; left: 12px; right: 12px;
-}
-.scan-label-text {
-  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-  color: rgba(45,107,228,0.6);
-  font-family: 'DM Sans', sans-serif;
-}
-.scan-barcodes {
-  display: flex; gap: 2px; align-items: flex-end;
-}
-.scan-barcodes span {
-  display: inline-block;
-  width: 2px;
-  background: rgba(45,107,228,0.25);
-  border-radius: 1px;
-}
-
 .card-status {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
-  color: #4ade80; margin-bottom: 20px;
+  color: #4ade80; margin-bottom: 28px;
 }
 .card-status::before {
   content: '';
@@ -407,6 +420,104 @@ nav.scrolled {
 @keyframes pulse-status {
   0%, 100% { box-shadow: 0 0 6px rgba(74,222,128,0.6); }
   50%       { box-shadow: 0 0 14px rgba(74,222,128,0.9), 0 0 28px rgba(74,222,128,0.3); }
+}
+
+/* ── PHONE FRAME ── */
+.phone-frame-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+.phone-frame {
+  position: relative;
+  width: 160px;
+  height: 280px;
+  background: #0a0a14;
+  border-radius: 28px;
+  border: 2px solid rgba(255,255,255,0.12);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(45,107,228,0.12),
+    inset 0 0 20px rgba(0,0,0,0.5),
+    0 20px 60px rgba(0,0,0,0.6);
+}
+/* Speaker notch at top */
+.phone-frame::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px; height: 5px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 3px;
+  z-index: 4;
+}
+/* Screen glow */
+.phone-screen {
+  position: absolute;
+  inset: 20px 8px 8px;
+  background: linear-gradient(180deg, rgba(45,107,228,0.03) 0%, rgba(18,0,42,0.2) 100%);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(45,107,228,0.1);
+}
+/* Scan corners inside phone */
+.p-corner {
+  position: absolute;
+  width: 12px; height: 12px;
+  pointer-events: none;
+  z-index: 2;
+}
+.p-corner-tl { top: 24px; left: 16px; border-top: 2px solid var(--blue); border-left: 2px solid var(--blue); border-radius: 2px 0 0 0; }
+.p-corner-tr { top: 24px; right: 16px; border-top: 2px solid var(--blue); border-right: 2px solid var(--blue); border-radius: 0 2px 0 0; }
+.p-corner-bl { bottom: 24px; left: 16px; border-bottom: 2px solid var(--blue); border-left: 2px solid var(--blue); border-radius: 0 0 0 2px; }
+.p-corner-br { bottom: 24px; right: 16px; border-bottom: 2px solid var(--blue); border-right: 2px solid var(--blue); border-radius: 0 0 2px 0; }
+/* Phone scan line */
+.phone-scan-line {
+  position: absolute;
+  left: 8px; right: 8px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--blue) 15%, rgba(100,160,255,0.95) 50%, var(--blue) 85%, transparent 100%);
+  box-shadow: 0 0 10px rgba(45,107,228,0.9), 0 0 28px rgba(45,107,228,0.5);
+  top: 0;
+  z-index: 3;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .phone-scan-line {
+    animation: phone-scan-move 2.4s cubic-bezier(0.45,0,0.55,1) infinite;
+  }
+}
+@keyframes phone-scan-move {
+  0%   { top: 0%;   opacity: 0; }
+  5%   {             opacity: 1; }
+  95%  {             opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+/* Scanning label at bottom of phone */
+.phone-scan-label {
+  position: absolute;
+  bottom: 10px; left: 0; right: 0;
+  text-align: center;
+  font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(45,107,228,0.7);
+  font-family: 'DM Sans', sans-serif;
+  z-index: 3;
+}
+/* Mini barcode lines inside phone */
+.phone-barcodes {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; gap: 3px; align-items: flex-end;
+  opacity: 0.3;
+  z-index: 1;
+}
+.phone-barcodes span {
+  display: inline-block;
+  width: 2px;
+  background: rgba(45,107,228,0.6);
+  border-radius: 1px;
 }
 
 .product-name {
@@ -454,7 +565,7 @@ nav.scrolled {
   content: '';
   position: absolute;
   top: 0; bottom: 0;
-  width: 120px;
+  width: 160px;
   z-index: 2;
   pointer-events: none;
 }
@@ -470,11 +581,11 @@ nav.scrolled {
 .marquee-track {
   display: flex;
   width: max-content;
-  padding: 48px 0;
+  padding: 52px 0;
 }
 @media (prefers-reduced-motion: no-preference) {
   .marquee-track {
-    animation: marquee-scroll 24s linear infinite;
+    animation: marquee-scroll 26s linear infinite;
   }
 }
 @keyframes marquee-scroll {
@@ -491,26 +602,45 @@ nav.scrolled {
 .stat-item {
   display: flex; align-items: center;
   white-space: nowrap;
-  padding: 0 56px;
+  padding: 0 64px;
 }
 
 .stat-num {
   font-family: 'Syne', sans-serif;
-  font-size: 36px; font-weight: 800;
-  color: var(--blue); letter-spacing: -1px;
+  font-size: 40px; font-weight: 800;
+  color: var(--blue); letter-spacing: -1.5px;
   line-height: 1;
-  margin-right: 14px;
+  margin-right: 16px;
 }
 .stat-label {
-  font-size: 14px; color: var(--muted);
+  font-size: 15px; color: var(--muted);
   letter-spacing: 0.2px;
 }
 
 .stat-divider {
-  width: 4px; height: 4px;
-  background: var(--border);
-  border-radius: 50%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 20px;
+  color: var(--blue);
+  opacity: 0.5;
   flex-shrink: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── SCROLL REVEALS ── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(60px);
+  filter: blur(8px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+    transform 0.8s cubic-bezier(0.16,1,0.3,1),
+    filter 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
 }
 
 /* ── FOOTER ── */
@@ -527,8 +657,10 @@ nav.scrolled {
 
 footer {
   padding: 32px 48px;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;
@@ -538,51 +670,79 @@ footer.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
-footer .logo {
+.footer-row {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-logo {
   font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800;
   display: flex; align-items: baseline;
 }
 .footer-logo-dot { color: var(--blue); }
-footer p { font-size: 13px; color: #444; }
+footer .footer-copy { font-size: 13px; color: #444; }
+footer .footer-love {
+  font-size: 11px;
+  color: #333;
+  letter-spacing: 0.3px;
+}
 
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
-  .hero-left, .hero-right {
+  .hero-left .badge,
+  .hero-left .hero-tagline-main .tagline-word,
+  .hero-left .hero-sub,
+  .hero-left .hero-links {
     opacity: 1;
     transform: none;
+    transition: none;
+  }
+  .product-card-float {
+    opacity: 1;
+    transform: none;
+    transition: none;
     animation: none;
   }
-  [data-reveal] { opacity: 1; transform: none; transition: none; }
-  .orb { display: none; }
+  [data-reveal] { opacity: 1; transform: none; filter: none; transition: none; }
+  .orb { opacity: 0.6; animation: none; }
+  .grain { display: none; }
   body::before { display: none; }
   .marquee-track { animation: none; }
-  .scan-line { animation: none; top: 50%; }
+  .phone-scan-line { animation: none; top: 50%; }
   nav { opacity: 1; animation: none; }
   footer { opacity: 1; transform: none; transition: none; }
   .footer-rule { transform: scaleX(1); transition: none; }
+  .badge-dot { animation: none; }
+  .card-status::before { animation: none; }
 }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .hero-inner { gap: 48px; }
   .wordmark { font-size: clamp(56px, 8vw, 90px); letter-spacing: -3px; }
+  .hero-tagline-main { font-size: clamp(40px, 6vw, 70px); }
 }
 @media (max-width: 768px) {
   nav, nav.scrolled { padding: 16px 20px; }
-  .hero { padding: 110px 20px 70px; }
+  .hero { padding: 110px 20px 70px; min-height: 100svh; }
   .hero-inner { grid-template-columns: 1fr; gap: 40px; }
   .wordmark { font-size: clamp(64px, 18vw, 96px); letter-spacing: -3px; }
-  footer { flex-direction: column; text-align: center; padding: 24px 20px; }
-  .orb-2, .orb-3 { display: none; }
-  .orb-1 { width: 400px; height: 400px; }
-  .stat-num { font-size: 28px; }
-  .stat-item { padding: 0 36px; }
+  .hero-tagline-main { font-size: clamp(40px, 12vw, 64px); letter-spacing: -1.5px; }
+  footer {
+    padding: 24px 20px;
+    align-items: center;
+  }
+  .footer-row { flex-direction: column; text-align: center; gap: 8px; }
+  .orb-2, .orb-3, .orb-4 { display: none; }
+  .orb-1 { width: 500px; height: 500px; }
+  .stat-num { font-size: 30px; }
+  .stat-item { padding: 0 40px; }
 }
 </style>
-<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
-<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
+
+<div class="grain" aria-hidden="true"></div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -594,37 +754,69 @@ footer p { font-size: 13px; color: #444; }
 
 <!-- HERO -->
 <section class="hero">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+  <div class="orb orb-4" aria-hidden="true"></div>
 
   <div class="hero-inner">
     <!-- LEFT -->
     <div class="hero-left" id="hero-left">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        Apex Holdings Group LLC
-      </div>
 
-      <!-- Wordmark rendered via DOM in JS to avoid innerHTML -->
+      <!-- Wordmark rendered via DOM in JS -->
       <div class="wordmark" id="wordmark" aria-label="Apex.">
         <span class="wordmark-text" id="wordmark-text"></span><span class="wordmark-dot" id="wordmark-dot" style="display:none">.</span>
       </div>
 
-      <p class="hero-tagline">
-        High-impact AI products built for real people — not pitch decks. Based in New Jersey, shipping in 2025.
+      <div class="badge" id="hero-badge">
+        <span class="badge-dot"></span>
+        AI Product Studio &middot; New Jersey &middot; Est. 2025
+      </div>
+
+      <h1 class="hero-tagline-main" id="hero-tagline" aria-label="We build what people use."></h1>
+
+      <p class="hero-sub" id="hero-sub">
+        High-impact AI products for real people.
       </p>
 
-      <div class="hero-links">
+      <div class="hero-links" id="hero-links">
         <a href="pl.index.html" class="btn-primary">View PureLabel &rarr;</a>
         <a href="mailto:jerry@apexxholdings.com" class="btn-ghost">Get in touch</a>
       </div>
     </div>
 
     <!-- RIGHT -->
-    <div class="hero-right" id="hero-right">
+    <div class="product-card-float" id="hero-right">
       <div class="product-card">
         <div class="card-status">In Development</div>
+
+        <!-- Phone frame with scan animation -->
+        <div class="phone-frame-wrap" role="img" aria-label="PureLabel app scanning animation">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="p-corner p-corner-tl"></div>
+              <div class="p-corner p-corner-tr"></div>
+              <div class="p-corner p-corner-bl"></div>
+              <div class="p-corner p-corner-br"></div>
+              <div class="phone-scan-line"></div>
+              <div class="phone-barcodes" aria-hidden="true">
+                <span style="height:22px"></span>
+                <span style="height:30px"></span>
+                <span style="height:16px"></span>
+                <span style="height:26px"></span>
+                <span style="height:12px"></span>
+                <span style="height:32px"></span>
+                <span style="height:20px"></span>
+                <span style="height:14px"></span>
+                <span style="height:28px"></span>
+                <span style="height:18px"></span>
+                <span style="height:24px"></span>
+                <span style="height:10px"></span>
+              </div>
+              <div class="phone-scan-label">Scanning</div>
+            </div>
+          </div>
+        </div>
 
         <div class="product-name">
           Pure<span class="product-name-blue">Label</span>
@@ -633,32 +825,6 @@ footer p { font-size: 13px; color: #444; }
         <p class="product-desc">
           Scan any food product and instantly expose what's really inside — hidden chemicals, misleading labels, and everything the packaging doesn't tell you.
         </p>
-
-        <!-- Scanning animation frame -->
-        <div class="scan-frame" role="img" aria-label="Product barcode scanning animation">
-          <div class="scan-corner scan-corner-tl"></div>
-          <div class="scan-corner scan-corner-tr"></div>
-          <div class="scan-corner scan-corner-bl"></div>
-          <div class="scan-corner scan-corner-br"></div>
-          <div class="scan-line"></div>
-          <div class="scan-label">
-            <span class="scan-label-text">Scanning</span>
-            <span class="scan-barcodes" aria-hidden="true">
-              <span style="height:18px"></span>
-              <span style="height:24px"></span>
-              <span style="height:14px"></span>
-              <span style="height:22px"></span>
-              <span style="height:10px"></span>
-              <span style="height:26px"></span>
-              <span style="height:18px"></span>
-              <span style="height:12px"></span>
-              <span style="height:20px"></span>
-              <span style="height:16px"></span>
-              <span style="height:24px"></span>
-              <span style="height:8px"></span>
-            </span>
-          </div>
-        </div>
 
         <div class="product-tags">
           <span class="tag">React Native</span>
@@ -679,33 +845,36 @@ footer p { font-size: 13px; color: #444; }
     <!-- Set A -->
     <div class="marquee-set">
       <div class="stat-item"><span class="stat-num">1M+</span><span class="stat-label">Products</span></div>
-      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-divider" aria-hidden="true">&middot;</div>
       <div class="stat-item"><span class="stat-num">&lt;3s</span><span class="stat-label">Scan to result</span></div>
-      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-divider" aria-hidden="true">&middot;</div>
       <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Transparent</span></div>
-      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-divider" aria-hidden="true">&middot;</div>
       <div class="stat-item"><span class="stat-num">NJ</span><span class="stat-label">Built in New Jersey</span></div>
-      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-divider" aria-hidden="true">&middot;</div>
     </div>
     <!-- Set B — duplicate for seamless CSS loop -->
     <div class="marquee-set" aria-hidden="true">
       <div class="stat-item"><span class="stat-num">1M+</span><span class="stat-label">Products</span></div>
-      <div class="stat-divider"></div>
+      <div class="stat-divider">&middot;</div>
       <div class="stat-item"><span class="stat-num">&lt;3s</span><span class="stat-label">Scan to result</span></div>
-      <div class="stat-divider"></div>
+      <div class="stat-divider">&middot;</div>
       <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Transparent</span></div>
-      <div class="stat-divider"></div>
+      <div class="stat-divider">&middot;</div>
       <div class="stat-item"><span class="stat-num">NJ</span><span class="stat-label">Built in New Jersey</span></div>
-      <div class="stat-divider"></div>
+      <div class="stat-divider">&middot;</div>
     </div>
   </div>
 </div>
 
 <!-- FOOTER -->
-<div class="footer-rule" id="footer-rule"></div>
+<div class="footer-rule" id="footer-rule" data-reveal></div>
 <footer id="footer">
-  <div class="logo">Apex<span class="footer-logo-dot">.</span></div>
-  <p>&#169; 2025 Apex Holdings Group LLC &middot; Fanwood, NJ</p>
+  <div class="footer-row">
+    <div class="footer-logo">Apex<span class="footer-logo-dot">.</span></div>
+    <p class="footer-copy">&#169; 2025 Apex Holdings Group LLC &middot; Fanwood, NJ</p>
+  </div>
+  <p class="footer-love">Built with ❤️ in New Jersey</p>
 </footer>
 
 <script>
@@ -728,27 +897,28 @@ footer p { font-size: 13px; color: #444; }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  /* ── Logo type-in using DOM text nodes (no innerHTML) ── */
+  /* ── DOM refs ── */
   var wordmarkText = document.getElementById('wordmark-text');
   var wordmarkDot  = document.getElementById('wordmark-dot');
   var navLogoText  = document.getElementById('nav-logo-text');
   var navLogoDot   = document.getElementById('nav-logo-dot');
-  var heroLeft     = document.getElementById('hero-left');
+  var heroBadge    = document.getElementById('hero-badge');
+  var heroTagline  = document.getElementById('hero-tagline');
+  var heroSub      = document.getElementById('hero-sub');
+  var heroLinks    = document.getElementById('hero-links');
   var heroRight    = document.getElementById('hero-right');
 
-  /* The wordmark without the trailing dot — dot is in its own span */
+  /* ── Wordmark type-in ── */
   var WORDMARK_BASE = 'Apex';
-  var CHAR_DELAY = 60; /* ms per character */
+  var CHAR_DELAY = 60;
 
   function setWordmark(partial) {
-    /* partial is a substring of 'Apex.' */
     if (partial.length <= WORDMARK_BASE.length) {
       wordmarkText.textContent = partial;
       wordmarkDot.style.display = 'none';
       navLogoText.textContent = partial;
       navLogoDot.style.display = 'none';
     } else {
-      /* Full 'Apex.' — show both parts */
       wordmarkText.textContent = WORDMARK_BASE;
       wordmarkDot.style.display = '';
       navLogoText.textContent = WORDMARK_BASE;
@@ -771,28 +941,81 @@ footer p { font-size: 13px; color: #444; }
     setTimeout(next, CHAR_DELAY);
   }
 
-  function staggerHeroIn() {
+  /* ── Tagline word-stagger ── */
+  var TAGLINE_WORDS = ['We', 'build', 'what', 'people', 'use.'];
+
+  function buildTagline() {
+    heroTagline.innerHTML = '';
+    TAGLINE_WORDS.forEach(function (word) {
+      var span = document.createElement('span');
+      span.className = 'tagline-word';
+      span.textContent = word;
+      heroTagline.appendChild(span);
+    });
+  }
+
+  function staggerTagline(onDone) {
+    var words = heroTagline.querySelectorAll('.tagline-word');
+    words.forEach(function (word, i) {
+      setTimeout(function () {
+        word.classList.add('visible');
+        if (i === words.length - 1 && onDone) {
+          setTimeout(onDone, 500);
+        }
+      }, i * 80);
+    });
+  }
+
+  /* ── Entrance sequence ── */
+  function runEntrance() {
+    buildTagline();
+    /* t=400ms: wordmark type-in */
     setTimeout(function () {
-      heroLeft.classList.add('stagger-in');
-      heroRight.classList.add('stagger-in');
-    }, 120);
+      typeIn(function () {
+        /* After wordmark done: badge fades up */
+        heroBadge.classList.add('visible');
+
+        /* After badge (400ms): tagline words stagger */
+        setTimeout(function () {
+          staggerTagline(function () {
+            /* After tagline: sub + buttons */
+            heroSub.classList.add('visible');
+            heroLinks.classList.add('visible');
+          });
+        }, 400);
+
+        /* Simultaneously with sub+buttons: right card slides in */
+        setTimeout(function () {
+          heroRight.classList.add('visible');
+        }, 400 + TAGLINE_WORDS.length * 80 + 400);
+      });
+    }, 400);
+  }
+
+  function showAllInstant() {
+    setWordmark(WORDMARK_BASE + '.');
+    heroBadge.classList.add('visible');
+    buildTagline();
+    heroTagline.querySelectorAll('.tagline-word').forEach(function (w) {
+      w.classList.add('visible');
+    });
+    heroSub.classList.add('visible');
+    heroLinks.classList.add('visible');
+    heroRight.classList.add('visible');
   }
 
   if (prefersReduced) {
-    setWordmark(WORDMARK_BASE + '.');
-    staggerHeroIn();
+    showAllInstant();
   } else {
-    /* Wait for nav fade-in (0.5s) + small buffer */
-    setTimeout(function () {
-      typeIn(staggerHeroIn);
-    }, 650);
+    runEntrance();
   }
 
-  /* ── Footer rule scaleX reveal ── */
+  /* ── IntersectionObserver — scroll reveals + footer ── */
   var footerRule = document.getElementById('footer-rule');
   var footer     = document.getElementById('footer');
 
   if ('IntersectionObserver' in window) {
+    /* Footer rule & footer */
     var footerObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -803,9 +1026,28 @@ footer p { font-size: 13px; color: #444; }
       });
     }, { threshold: 0.1 });
     footerObserver.observe(footerRule);
+
+    /* Generic scroll reveals */
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('[data-reveal]').forEach(function (el) {
+      if (el !== footerRule) {
+        revealObserver.observe(el);
+      }
+    });
   } else {
     footerRule.classList.add('is-visible');
     footer.classList.add('is-visible');
+    document.querySelectorAll('[data-reveal]').forEach(function (el) {
+      el.classList.add('is-visible');
+    });
   }
 
 })();

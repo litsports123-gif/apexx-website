@@ -17,7 +17,7 @@
   --surface: #0f0f1a;
   --border: #ffffff10;
   --text: #ffffff;
-  --muted: #777;
+  --muted: #999;
 }
 
 @property --angle {
@@ -78,7 +78,7 @@ nav.scrolled {
   background: rgba(8, 8, 16, 0.85);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom-color: var(--border);
+  border-bottom-color: rgba(255,255,255,0.12);
 }
 .nav-logo {
   font-family: 'Syne', sans-serif;
@@ -117,36 +117,44 @@ nav.scrolled {
   .orb-2 { animation: orb-fadein 1.5s ease 0.2s forwards, float-b 28s ease-in-out 1.7s infinite; }
   .orb-3 { animation: orb-fadein 1.5s ease 0.3s forwards, float-c 20s ease-in-out 1.8s infinite; }
   .orb-4 { animation: orb-fadein 1.5s ease 0.4s forwards, float-d 28s ease-in-out 1.9s infinite; }
+  .orb-5 { animation: orb-fadein 1.5s ease 0.5s forwards, float-e 25s ease-in-out 2.0s infinite; }
 }
 
 @keyframes orb-fadein {
-  to { opacity: 0.70; }
+  to { opacity: 0.85; }
 }
 
 .orb-1 {
   width: 900px; height: 900px;
   top: -30%; left: 15%;
-  background: radial-gradient(circle, rgba(45,107,228,0.42) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(45,107,228,0.55) 0%, transparent 65%);
   filter: blur(120px);
 }
 .orb-2 {
   width: 700px; height: 700px;
   top: 20%; right: -15%;
-  background: radial-gradient(circle, rgba(45,107,228,0.30) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(45,107,228,0.55) 0%, transparent 65%);
   filter: blur(120px);
 }
 .orb-3 {
   width: 600px; height: 600px;
   bottom: -20%; left: -5%;
-  background: radial-gradient(circle, rgba(18,0,42,0.9) 0%, rgba(100,60,200,0.12) 50%, transparent 75%);
+  background: radial-gradient(circle, rgba(18,0,42,0.9) 0%, rgba(100,60,200,0.55) 50%, transparent 75%);
   filter: blur(120px);
 }
 .orb-4 {
   width: 500px; height: 500px;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(10,20,70,0.55) 0%, rgba(15,30,80,0.1) 50%, transparent 75%);
+  background: radial-gradient(circle, rgba(45,107,228,0.55) 0%, rgba(15,30,80,0.55) 50%, transparent 75%);
   filter: blur(120px);
+}
+.orb-5 {
+  width: 600px; height: 600px;
+  bottom: 0%; left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(100,60,255,0.35) 0%, transparent 65%);
+  filter: blur(100px);
 }
 
 @keyframes float-a {
@@ -167,6 +175,11 @@ nav.scrolled {
   0%, 100% { transform: translate(-50%, -50%) scale(1); }
   35%       { transform: translate(calc(-50% + 30px), calc(-50% + 20px)) scale(1.12); }
   70%       { transform: translate(calc(-50% - 20px), calc(-50% + 40px)) scale(0.92); }
+}
+@keyframes float-e {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  40%       { transform: translateX(calc(-50% + 40px)) scale(1.08); }
+  75%       { transform: translateX(calc(-50% - 30px)) scale(0.95); }
 }
 
 .hero-inner {
@@ -249,7 +262,7 @@ nav.scrolled {
               transform 0.5s cubic-bezier(0.16,1,0.3,1);
 }
 .tagline-word:last-child {
-  background: linear-gradient(90deg, #4d8ef5 0%, #9ec3ff 100%);
+  background: linear-gradient(135deg, #D4A843, #f0c55a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -340,7 +353,9 @@ nav.scrolled {
 }
 
 .product-card {
-  background: #111827;
+  background:
+    linear-gradient(90deg, transparent, rgba(77,142,245,0.6), transparent) top / 100% 1px no-repeat,
+    #131d30;
   border-radius: 24px;
   padding: 36px;
   position: relative; overflow: hidden;
@@ -383,8 +398,8 @@ nav.scrolled {
   background: conic-gradient(
     from var(--angle),
     transparent 0deg,
-    rgba(45,107,228,0.6) 60deg,
-    rgba(100,160,255,0.4) 120deg,
+    rgba(45,107,228,0.9) 60deg,
+    rgba(100,160,255,0.7) 120deg,
     transparent 180deg
   );
   opacity: 0;
@@ -412,6 +427,7 @@ nav.scrolled {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
   color: #4ade80; margin-bottom: 28px;
+  text-shadow: 0 0 10px rgba(74,222,128,0.5);
 }
 .card-status::before {
   content: '';
@@ -480,7 +496,7 @@ nav.scrolled {
   left: 8px; right: 8px;
   height: 2px;
   background: linear-gradient(90deg, transparent 0%, #4d8ef5 15%, rgba(158,195,255,0.98) 50%, #4d8ef5 85%, transparent 100%);
-  box-shadow: 0 0 10px #4d8ef5, 0 0 20px rgba(45,107,228,0.70);
+  box-shadow: 0 0 16px #4d8ef5, 0 0 32px rgba(45,107,228,0.6);
   top: 0;
   z-index: 3;
 }
@@ -606,19 +622,19 @@ nav.scrolled {
 
 .stat-num {
   font-family: 'Syne', sans-serif;
-  font-size: 40px; font-weight: 800;
-  color: var(--blue); letter-spacing: -1.5px;
+  font-size: 42px; font-weight: 800;
+  color: #ffffff; letter-spacing: -1.5px;
   line-height: 1;
   margin-right: 16px;
 }
 .stat-label {
-  font-size: 15px; color: #e0e8ff;
+  font-size: 15px; color: #c5d5ff;
   letter-spacing: 0.2px;
 }
 
 .stat-divider {
   font-family: 'DM Sans', sans-serif;
-  font-size: 20px;
+  font-size: 28px;
   color: #4d8ef5;
   opacity: 1;
   flex-shrink: 0;
@@ -684,17 +700,17 @@ nav.scrolled {
 
 /* Products section cards — distinct class from hero .product-card */
 .pl-card {
-  background: #111827;
+  background: #131d30;
   border-radius: 20px;
   padding: 32px;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
   transition: transform .35s cubic-bezier(0.16,1,0.3,1),
               box-shadow .35s cubic-bezier(0.16,1,0.3,1);
 }
 .pl-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(45,107,228,0.06);
 }
 
@@ -704,7 +720,7 @@ nav.scrolled {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #4d8ef5, transparent);
+  background: linear-gradient(90deg, transparent, rgba(77,142,245,0.7), transparent);
   pointer-events: none;
 }
 
@@ -715,6 +731,7 @@ nav.scrolled {
 }
 .pl-card-status--live {
   color: #4ade80;
+  text-shadow: 0 0 10px rgba(74,222,128,0.5);
 }
 .pl-card-status--live::before {
   content: '';
@@ -728,11 +745,11 @@ nav.scrolled {
   }
 }
 .pl-card-status--soon {
-  color: var(--muted);
+  color: #f0c55a;
 }
 .pl-card-status--soon::before {
   content: '';
-  width: 6px; height: 6px; background: var(--muted); border-radius: 50%;
+  width: 6px; height: 6px; background: #f0c55a; border-radius: 50%;
   display: inline-block;
 }
 
@@ -792,7 +809,7 @@ nav.scrolled {
 
 .philosophy-num {
   font-family: 'DM Sans', monospace;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #4d8ef5;
@@ -831,9 +848,9 @@ nav.scrolled {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 800px;
-  height: 600px;
-  background: radial-gradient(ellipse at center, rgba(45,107,228,0.18) 0%, rgba(45,107,228,0.06) 40%, transparent 70%);
+  width: 1000px;
+  height: 700px;
+  background: radial-gradient(ellipse at center, rgba(45,107,228,0.25) 0%, rgba(45,107,228,0.10) 40%, transparent 70%);
   filter: blur(60px);
   pointer-events: none;
   z-index: 0;
@@ -890,7 +907,7 @@ nav.scrolled {
   display: block;
   margin-top: 20px;
   font-size: 13px;
-  color: #444;
+  color: #aaa;
   letter-spacing: 0.2px;
 }
 
@@ -996,8 +1013,8 @@ footer .footer-copy { font-size: 13px; color: #444; }
   }
   .footer-row { flex-direction: column; text-align: center; gap: 8px; }
 
-  /* Keep orb-1 and orb-2, hide orb-3 and orb-4 on tablets */
-  .orb-3, .orb-4 { display: none; }
+  /* Keep orb-1 and orb-2, hide orb-3, orb-4, orb-5 on tablets */
+  .orb-3, .orb-4, .orb-5 { display: none; }
   .orb-1 { width: 500px; height: 500px; }
 
   .stat-num { font-size: 30px; }
@@ -1031,7 +1048,7 @@ footer .footer-copy { font-size: 13px; color: #444; }
   .footer-row { flex-direction: column; text-align: center; gap: 12px; }
 
   /* Reduce to 2 orbs (orb-1, orb-2) for mobile performance */
-  .orb-3, .orb-4 { display: none; }
+  .orb-3, .orb-4, .orb-5 { display: none; }
 }
 </style>
 </head>
@@ -1053,6 +1070,7 @@ footer .footer-copy { font-size: 13px; color: #444; }
   <div class="orb orb-2" aria-hidden="true"></div>
   <div class="orb orb-3" aria-hidden="true"></div>
   <div class="orb orb-4" aria-hidden="true"></div>
+  <div class="orb orb-5" aria-hidden="true"></div>
 
   <div class="hero-inner">
     <!-- LEFT -->

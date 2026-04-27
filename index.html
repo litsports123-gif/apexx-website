@@ -16,7 +16,7 @@
   --bg: #080810;
   --surface: #0f0f1a;
   --border: #ffffff10;
-  --text: #f0f0f0;
+  --text: #ffffff;
   --muted: #777;
 }
 
@@ -120,19 +120,19 @@ nav.scrolled {
 }
 
 @keyframes orb-fadein {
-  to { opacity: 1; }
+  to { opacity: 0.70; }
 }
 
 .orb-1 {
   width: 900px; height: 900px;
   top: -30%; left: 15%;
-  background: radial-gradient(circle, rgba(45,107,228,0.18) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(45,107,228,0.42) 0%, transparent 65%);
   filter: blur(120px);
 }
 .orb-2 {
   width: 700px; height: 700px;
   top: 20%; right: -15%;
-  background: radial-gradient(circle, rgba(45,107,228,0.12) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(45,107,228,0.30) 0%, transparent 65%);
   filter: blur(120px);
 }
 .orb-3 {
@@ -189,10 +189,10 @@ nav.scrolled {
 /* Badge — invisible until JS reveals it */
 .badge {
   display: inline-flex; align-items: center; gap: 8px;
-  background: #ffffff08; border: 1px solid #ffffff14;
+  background: #ffffff08; border: 1px solid rgba(255,255,255,0.18);
   padding: 6px 16px; border-radius: 100px;
   font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
-  color: var(--muted); margin-bottom: 24px;
+  color: #bbb; margin-bottom: 24px;
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -247,6 +247,13 @@ nav.scrolled {
   transform: translateY(30px);
   transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1),
               transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+/* Gradient highlight on the last tagline word */
+.tagline-word:last-child {
+  background: linear-gradient(90deg, #4d8ef5 0%, #9ec3ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .tagline-word.visible {
   opacity: 1;
@@ -335,13 +342,13 @@ nav.scrolled {
 }
 
 .product-card {
-  background: var(--surface);
+  background: #111827;
   border-radius: 24px;
   padding: 36px;
   position: relative; overflow: hidden;
   transition: transform .35s cubic-bezier(0.16,1,0.3,1),
               box-shadow .35s cubic-bezier(0.16,1,0.3,1);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.07);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
 }
 
 /* Diagonal shimmer sweep on hover */
@@ -478,8 +485,8 @@ nav.scrolled {
   position: absolute;
   left: 8px; right: 8px;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--blue) 15%, rgba(100,160,255,0.95) 50%, var(--blue) 85%, transparent 100%);
-  box-shadow: 0 0 10px rgba(45,107,228,0.9), 0 0 28px rgba(45,107,228,0.5);
+  background: linear-gradient(90deg, transparent 0%, #4d8ef5 15%, rgba(158,195,255,0.98) 50%, #4d8ef5 85%, transparent 100%);
+  box-shadow: 0 0 10px #4d8ef5, 0 0 20px rgba(45,107,228,0.70);
   top: 0;
   z-index: 3;
 }
@@ -613,15 +620,15 @@ nav.scrolled {
   margin-right: 16px;
 }
 .stat-label {
-  font-size: 15px; color: var(--muted);
+  font-size: 15px; color: #e0e8ff;
   letter-spacing: 0.2px;
 }
 
 .stat-divider {
   font-family: 'DM Sans', sans-serif;
   font-size: 20px;
-  color: var(--blue);
-  opacity: 0.5;
+  color: #4d8ef5;
+  opacity: 1;
   flex-shrink: 0;
   line-height: 1;
   user-select: none;
@@ -681,11 +688,6 @@ footer.is-visible {
 }
 .footer-logo-dot { color: var(--blue); }
 footer .footer-copy { font-size: 13px; color: #444; }
-footer .footer-love {
-  font-size: 11px;
-  color: #333;
-  letter-spacing: 0.3px;
-}
 
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
@@ -874,7 +876,6 @@ footer .footer-love {
     <div class="footer-logo">Apex<span class="footer-logo-dot">.</span></div>
     <p class="footer-copy">&#169; 2025 Apex Holdings Group LLC &middot; Fanwood, NJ</p>
   </div>
-  <p class="footer-love">Built with ❤️ in New Jersey</p>
 </footer>
 
 <script>

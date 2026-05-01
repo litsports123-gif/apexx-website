@@ -3,364 +3,700 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PureLabel — Know What You're Really Eating</title>
+<title>PureLabel — Know What's Really In Your Food</title>
+<meta name="description" content="Scan any food product and instantly see hidden chemicals, misleading labels, and AI-powered ingredient breakdowns. Join the waitlist."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
 :root{
-  --primary:#1A4A3A;
-  --primary-dark:#0F2E24;
-  --primary-mid:#2A6B50;
-  --glow:#4ADE80;
-  --accent:#D4A843;
-  --accent-dark:#C4922A;
-  --bg:#FFFDF9;
-  --bg-alt:#FAF7F2;
-  --surface:#F5F0E8;
-  --surface-2:#EDE8DF;
-  --border:#E8E2D9;
-  --border-g:rgba(26,74,58,0.18);
-  --text:#1C1A17;
-  --text-2:#7A6F63;
-  --text-3:#A89D93;
-  --success:#2A7A5A;
-  --warning:#C4922A;
-  --danger:#C44A3A;
+  --green:       #1A4A3A;
+  --green-dark:  #0F2E24;
+  --green-mid:   #2A6A52;
+  --green-light: #A8C4B8;
+  --gold:        #D4A843;
+  --gold-dark:   #B88D2A;
+  --bg:          #FAFAF7;
+  --bg-warm:     #F5F0E8;
+  --bg-dark:     #0D1A14;
+  --surface:     #F0EBE1;
+  --border:      #E2DDD4;
+  --border-green:rgba(26,74,58,0.15);
+  --text:        #1C1A17;
+  --muted:       #6B6358;
+  --white:       #FFFFFF;
 }
+
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
 
-.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-.ambient::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(26,74,58,0.032) 1px,transparent 1px);background-size:26px 26px;}
-.ambient::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 50% at 85% 10%,rgba(26,74,58,0.05) 0%,transparent 65%),radial-gradient(ellipse 45% 40% at 5% 85%,rgba(212,168,67,0.04) 0%,transparent 65%);}
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.ambient::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(26,74,58,0.035) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+.ambient::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 90% -10%,rgba(26,74,58,0.05) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 50% at -10% 100%,rgba(212,168,67,0.04) 0%,transparent 70%);
+}
 
-nav,section,footer,.divider{position:relative;z-index:1;}
+nav,section,footer,.chips-bar{position:relative;z-index:1;}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 44px;border-bottom:1px solid transparent;transition:padding .4s cubic-bezier(.16,1,.3,1),background .4s,border-color .4s,box-shadow .4s;}
-nav.scrolled{padding:13px 44px;background:rgba(255,253,249,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:var(--border);box-shadow:0 1px 0 rgba(232,226,217,0.5),0 4px 20px rgba(26,74,58,0.06);}
-.nav-back{color:var(--text-2);font-size:13px;text-decoration:none;letter-spacing:0.4px;transition:color .2s;display:flex;align-items:center;gap:6px;}
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 48px;
+  transition:padding .35s ease,background .35s ease,border-color .35s ease,box-shadow .35s ease;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  padding:12px 48px;
+  background:rgba(250,250,247,0.92);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom-color:var(--border);
+  box-shadow:0 1px 0 rgba(226,221,212,0.6),0 4px 24px rgba(26,74,58,0.07);
+}
+.nav-back{color:var(--muted);font-size:13px;text-decoration:none;letter-spacing:.5px;transition:color .2s;}
 .nav-back:hover{color:var(--text);}
-.nav-logo{width:34px;height:34px;background:var(--primary);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;letter-spacing:0.5px;color:white;user-select:none;}
-.nav-cta{background:var(--accent);color:var(--text);border:none;padding:10px 20px;border-radius:8px;font-family:'DM Sans';font-size:14px;font-weight:600;cursor:pointer;transition:background .2s,transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s;}
-.nav-cta:hover{background:var(--accent-dark);transform:translateY(-1px);box-shadow:0 4px 18px rgba(212,168,67,0.32);}
+.nav-logo{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:9px;
+  background:var(--green);color:#fff;
+  font-size:13px;font-weight:700;letter-spacing:.5px;user-select:none;
+}
+.nav-cta{
+  background:var(--gold);color:var(--text);border:none;
+  padding:10px 22px;border-radius:10px;
+  font-family:'DM Sans';font-size:14px;font-weight:600;
+  cursor:pointer;text-decoration:none;
+  transition:background .2s,transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s;
+}
+.nav-cta:hover{background:var(--gold-dark);transform:translateY(-1px);box-shadow:0 4px 18px rgba(212,168,67,0.4);}
 
 /* HERO */
-.hero{min-height:100svh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:64px;padding:110px 44px 80px 8vw;position:relative;overflow:hidden;}
+.hero{
+  min-height:100svh;display:flex;align-items:center;
+  padding:120px 48px 80px;position:relative;overflow:hidden;
+}
+.hero-inner{
+  max-width:1140px;width:100%;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
 
-/* 3D PHONE */
-.phone-scene{display:flex;align-items:center;justify-content:center;position:relative;}
-.phone-glow{position:absolute;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(26,74,58,0.25) 0%,transparent 65%);filter:blur(50px);pointer-events:none;animation:glow-p 4s ease-in-out infinite;}
-@keyframes glow-p{0%,100%{opacity:0.6;}50%{opacity:1;}}
+.hero-left{display:flex;flex-direction:column;align-items:flex-start;}
 
-.phone-3d{width:200px;height:380px;transform-style:preserve-3d;animation:phone-tilt 9s ease-in-out infinite;position:relative;z-index:1;}
-@keyframes phone-tilt{0%,100%{transform:rotateX(-8deg) rotateY(-10deg);}50%{transform:rotateX(-5deg) rotateY(10deg);}}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(26,74,58,0.07);border:1px solid var(--border-green);
+  padding:6px 16px;border-radius:100px;
+  font-size:11px;text-transform:uppercase;letter-spacing:2px;
+  color:var(--green);font-weight:500;margin-bottom:28px;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.hero-badge.in{opacity:1;transform:translateY(0);}
+.badge-pulse{
+  width:6px;height:6px;border-radius:50%;background:#2A9D68;flex-shrink:0;
+  box-shadow:0 0 8px rgba(42,157,104,0.6);animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 6px rgba(42,157,104,0.5);}50%{box-shadow:0 0 14px rgba(42,157,104,0.8);}}
 
-.phone-body{width:100%;height:100%;background:linear-gradient(160deg,#182a1e,#0c1c12);border-radius:34px;border:1px solid rgba(74,222,128,0.14);box-shadow:0 0 0 1px rgba(26,74,58,0.28),0 36px 72px rgba(0,0,0,0.28),inset 0 0 28px rgba(0,0,0,0.35);position:relative;overflow:hidden;}
-.phone-island{position:absolute;top:13px;left:50%;transform:translateX(-50%);width:72px;height:20px;background:#000;border-radius:18px;z-index:10;}
-.phone-screen{position:absolute;inset:11px 7px 7px;background:linear-gradient(180deg,#091610 0%,#0c1c14 100%);border-radius:24px;overflow:hidden;}
-.phone-scan-line{position:absolute;left:11px;right:11px;height:1.5px;background:linear-gradient(90deg,transparent,rgba(74,222,128,0.9),transparent);box-shadow:0 0 10px rgba(74,222,128,0.55);z-index:20;animation:scan-ph 2.8s cubic-bezier(.45,0,.55,1) infinite;opacity:0;}
-@keyframes scan-ph{0%{top:42px;opacity:0;}5%{opacity:1;}95%{opacity:1;}100%{top:calc(100% - 11px);opacity:0;}}
+.hero-headline{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(52px,7vw,88px);line-height:1.0;letter-spacing:-1px;font-weight:400;
+  margin-bottom:24px;opacity:0;transform:translateY(24px);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1) .1s,transform .6s cubic-bezier(.16,1,.3,1) .1s;
+}
+.hero-headline.in{opacity:1;transform:translateY(0);}
+.hero-headline em{font-style:italic;color:var(--green);}
 
-.screen-content{position:absolute;inset:42px 0 0;padding:10px;}
-.screen-hdr{display:flex;justify-content:space-between;align-items:center;padding:0 2px;margin-bottom:6px;}
-.screen-logo{font-size:9px;font-weight:700;color:var(--glow);letter-spacing:1px;}
-.screen-grade{width:28px;height:28px;border-radius:50%;background:rgba(42,122,90,0.28);border:1.5px solid var(--success);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--glow);text-shadow:0 0 8px rgba(74,222,128,0.5);}
-.screen-prod{font-size:8px;font-weight:600;color:rgba(255,255,255,0.75);padding:0 2px;}
-.screen-sub2{font-size:7px;color:rgba(255,255,255,0.35);padding:0 2px;margin-bottom:6px;}
-.screen-cards{display:flex;flex-direction:column;gap:4px;}
-.sc{background:rgba(255,255,255,0.05);border-radius:5px;padding:5px 5px 5px 9px;position:relative;overflow:hidden;}
-.sc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;}
-.sc.safe::before{background:var(--glow);}
-.sc.warn::before{background:var(--warning);}
-.sc.bad::before{background:var(--danger);}
-.sc-badge{float:right;font-size:6px;padding:1px 4px;border-radius:3px;font-weight:600;margin-top:1px;}
-.sc-badge.safe{background:rgba(74,222,128,0.14);color:var(--glow);}
-.sc-badge.warn{background:rgba(196,146,42,0.18);color:var(--warning);}
-.sc-badge.bad{background:rgba(196,74,58,0.18);color:var(--danger);}
-.sc-name{font-size:7px;font-weight:600;color:rgba(255,255,255,0.82);line-height:1.2;}
-.sc-risk{font-size:6px;color:rgba(255,255,255,0.38);margin-top:1px;}
-
-/* Floating chips around phone */
-.chips-float{position:absolute;inset:-48px;pointer-events:none;z-index:2;}
-.fchip{position:absolute;font-size:9px;font-weight:600;letter-spacing:0.4px;padding:5px 10px;border-radius:100px;white-space:nowrap;animation:chip-a linear infinite;}
-@keyframes chip-a{0%{transform:translateY(0);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translateY(-18px);opacity:0;}}
-.fchip.bad{background:rgba(196,74,58,0.1);border:1px solid rgba(196,74,58,0.28);color:#C44A3A;}
-.fchip.warn{background:rgba(196,146,42,0.1);border:1px solid rgba(196,146,42,0.28);color:#C4922A;}
-.fchip.safe{background:rgba(42,122,90,0.1);border:1px solid rgba(42,122,90,0.22);color:#2A7A5A;}
-
-/* HERO CONTENT */
-.hero-content{display:flex;flex-direction:column;}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(26,74,58,0.07);border:1px solid rgba(26,74,58,0.18);padding:6px 14px;border-radius:100px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--primary);margin-bottom:26px;align-self:flex-start;animation:fade-u 0.5s ease 0.4s both;}
-@keyframes fade-u{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.bdot{width:6px;height:6px;border-radius:50%;background:var(--glow);flex-shrink:0;box-shadow:0 0 7px rgba(74,222,128,0.75);animation:bdp 2.5s ease-in-out infinite;}
-@keyframes bdp{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.7);}}
-
-h1{font-family:'DM Serif Display',serif;font-size:clamp(38px,5.2vw,66px);font-weight:400;letter-spacing:-0.3px;line-height:1.05;margin-bottom:18px;color:var(--text);}
-h1 em{font-style:italic;color:var(--primary);}
-h1 .word{display:inline-block;opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);}
-h1 .word.in{opacity:1;transform:translateY(0);}
-
-.hero-sub{font-size:16px;color:var(--text-2);line-height:1.75;max-width:440px;margin-bottom:32px;opacity:0;transform:translateY(12px);transition:opacity .7s cubic-bezier(.16,1,.3,1) .7s,transform .7s cubic-bezier(.16,1,.3,1) .7s;}
+.hero-sub{
+  font-size:17px;line-height:1.7;color:var(--muted);max-width:420px;margin-bottom:40px;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .6s ease .3s,transform .6s ease .3s;
+}
 .hero-sub.in{opacity:1;transform:translateY(0);}
 
-.waitlist-wrap{opacity:0;transform:translateY(12px);transition:opacity .7s cubic-bezier(.16,1,.3,1) .9s,transform .7s cubic-bezier(.16,1,.3,1) .9s;}
-.waitlist-wrap.in{opacity:1;transform:translateY(0);}
-.waitlist{display:flex;background:white;border:1.5px solid var(--border);border-radius:13px;padding:5px 5px 5px 16px;gap:7px;align-items:center;max-width:420px;transition:border-color .3s,box-shadow .3s;}
-.waitlist:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,74,58,0.09);}
-.waitlist input{flex:1;background:transparent;border:none;outline:none;font-family:'DM Sans';font-size:14px;color:var(--text);min-width:0;}
-.waitlist input::placeholder{color:var(--text-3);}
-.waitlist button{background:var(--primary);color:white;border:none;padding:11px 18px;border-radius:9px;font-family:'DM Sans';font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s,transform .2s,box-shadow .2s;}
-.waitlist button:hover{background:var(--primary-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(26,74,58,0.28);}
-.waitlist button:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-.wl-note{font-size:12px;color:var(--text-3);margin-top:9px;}
+.waitlist-group{
+  width:100%;max-width:440px;opacity:0;transform:translateY(14px);
+  transition:opacity .6s ease .45s,transform .6s ease .45s;
+}
+.waitlist-group.in{opacity:1;transform:translateY(0);}
+.waitlist-form{
+  display:flex;gap:8px;background:var(--white);border:1px solid var(--border);
+  border-radius:14px;padding:6px 6px 6px 18px;margin-bottom:10px;
+  transition:border-color .25s,box-shadow .25s;
+}
+.waitlist-form:focus-within{border-color:var(--green);box-shadow:0 0 0 3px rgba(26,74,58,0.1);}
+.waitlist-form input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--text);font-family:'DM Sans';font-size:15px;min-width:0;
+}
+.waitlist-form input::placeholder{color:var(--muted);opacity:.7;}
+.waitlist-form button{
+  background:var(--green);color:#fff;border:none;
+  padding:12px 20px;border-radius:10px;
+  font-family:'DM Sans';font-size:14px;font-weight:600;
+  cursor:pointer;white-space:nowrap;
+  transition:background .2s,transform .2s cubic-bezier(.16,1,.3,1);
+}
+.waitlist-form button:hover{background:var(--green-mid);transform:translateY(-1px);}
+.waitlist-form button:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.waitlist-note{font-size:12px;color:var(--muted);}
+.success-msg{
+  color:#2A9D68;font-size:15px;font-weight:500;padding:14px 0;
+  display:flex;align-items:center;gap:8px;
+}
 
-.proof{display:flex;align-items:center;gap:12px;margin-top:28px;opacity:0;transform:translateY(12px);transition:opacity .7s cubic-bezier(.16,1,.3,1) 1.1s,transform .7s cubic-bezier(.16,1,.3,1) 1.1s;}
-.proof.in{opacity:1;transform:translateY(0);}
-.avatars{display:flex;}
-.av{width:30px;height:30px;border-radius:50%;border:2px solid var(--bg);background:var(--primary);margin-left:-7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;}
-.av:first-child{margin-left:0;}
-.av:nth-child(2){background:var(--accent);color:var(--text);}
-.av:nth-child(3){background:#A8C4B8;color:var(--primary-dark);}
-.proof-text{font-size:13px;color:var(--text-2);}
+.hero-proof{
+  margin-top:40px;display:flex;align-items:center;gap:14px;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .6s ease .6s,transform .6s ease .6s;
+}
+.hero-proof.in{opacity:1;transform:translateY(0);}
+.proof-avatars{display:flex;}
+.proof-avatar{
+  width:28px;height:28px;border-radius:50%;border:2px solid var(--bg);
+  margin-left:-7px;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;
+}
+.proof-avatar:first-child{margin-left:0;}
+.proof-avatar:nth-child(1){background:var(--green);color:#fff;}
+.proof-avatar:nth-child(2){background:var(--gold);color:var(--text);}
+.proof-avatar:nth-child(3){background:#8BA89E;color:#fff;}
+.proof-avatar:nth-child(4){background:#C4927A;color:#fff;}
+.proof-text{font-size:13px;color:var(--muted);}
 .proof-text strong{color:var(--text);}
-.success-msg{color:var(--success);font-size:14px;font-weight:500;padding:16px 0;}
 
-/* DIVIDER */
-.divider{width:72%;max-width:720px;height:1px;margin:0 auto;background:var(--border);position:relative;}
-.divider::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(26,74,58,0.32),transparent);transform:scaleX(0);transform-origin:left;transition:transform 1.2s cubic-bezier(.16,1,.3,1);}
-.divider.anim::after{transform:scaleX(1);}
+/* HERO PHONE */
+.hero-phone{
+  display:flex;justify-content:center;align-items:center;
+  opacity:0;transform:translateX(32px);
+  transition:opacity .8s cubic-bezier(.16,1,.3,1) .2s,transform .8s cubic-bezier(.16,1,.3,1) .2s;
+}
+.hero-phone.in{opacity:1;transform:translateX(0);animation:float 7s ease-in-out 1.2s infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+@media(prefers-reduced-motion:reduce){.hero-phone.in{animation:none;}}
 
-/* REVEAL */
-.js .reveal{opacity:0;transform:translateY(40px);filter:blur(4px);transition:opacity .78s cubic-bezier(.16,1,.3,1),transform .78s cubic-bezier(.16,1,.3,1),filter .78s cubic-bezier(.16,1,.3,1);}
-.js .reveal.visible{opacity:1;transform:translateY(0);filter:blur(0);}
+.device{
+  width:240px;background:#0D1A14;border-radius:44px;padding:14px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.12),
+    0 40px 80px rgba(0,0,0,0.35),
+    0 0 0 8px rgba(26,74,58,0.06);
+  position:relative;
+}
+.device::before{
+  content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);
+  width:60px;height:6px;border-radius:4px;background:rgba(255,255,255,0.15);z-index:2;
+}
+.device-screen{
+  border-radius:32px;overflow:hidden;background:#0D1A14;
+  aspect-ratio:1284/2778;
+}
+.device-screen img{width:100%;height:100%;object-fit:cover;display:block;border-radius:32px;}
+.device-btn{position:absolute;right:-3px;width:3px;border-radius:2px;background:rgba(255,255,255,0.12);}
+.device-btn-1{top:80px;height:40px;}
+.device-btn-2{top:132px;height:60px;}
+.device-btn-l{position:absolute;left:-3px;top:90px;width:3px;height:50px;border-radius:2px;background:rgba(255,255,255,0.12);}
+.device-label{
+  position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);white-space:nowrap;
+}
 
-/* SECTIONS */
-.section{padding:110px 44px;max-width:1080px;margin:0 auto;}
-.sec-label{font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--primary);font-weight:500;margin-bottom:13px;}
-.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(32px,4.5vw,54px);font-weight:400;letter-spacing:-0.3px;line-height:1.07;margin-bottom:12px;}
-.sec-sub{color:var(--text-2);font-size:16px;max-width:460px;line-height:1.7;margin-bottom:64px;}
+/* CHIP BAR */
+.chips-bar{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;}
+.chips-bar::before,.chips-bar::after{
+  content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none;
+}
+.chips-bar::before{left:0;background:linear-gradient(to right,var(--bg),transparent);}
+.chips-bar::after{right:0;background:linear-gradient(to left,var(--bg),transparent);}
+.chips-track{display:flex;width:max-content;padding:22px 0;animation:scroll-chips 30s linear infinite;}
+@keyframes scroll-chips{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+@media(prefers-reduced-motion:reduce){.chips-track{animation:none;}}
+.chips-set{display:flex;align-items:center;gap:12px;padding:0 6px;flex-shrink:0;}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--bg-warm);border:1px solid var(--border);
+  padding:6px 14px;border-radius:100px;font-size:12px;color:var(--muted);white-space:nowrap;
+}
+.chip-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.chip-dot--red{background:#E05252;}
+.chip-dot--yellow{background:#D4A843;}
+.chip-dot--green{background:#2A9D68;}
+.chip-sep{font-size:18px;color:var(--border);line-height:1;}
 
-/* PROBLEM */
-.problem-section{padding:110px 44px;background:var(--primary-dark);position:relative;overflow:hidden;}
-.problem-section::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(74,222,128,0.025) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
-.problem-inner{max-width:1080px;margin:0 auto;position:relative;z-index:1;}
-.prob-label{font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--glow);font-weight:500;margin-bottom:18px;}
-.prob-title{font-family:'DM Serif Display',serif;font-size:clamp(34px,4.8vw,60px);font-weight:400;line-height:1.05;color:white;letter-spacing:-0.4px;margin-bottom:20px;}
-.prob-title em{font-style:italic;color:var(--glow);}
-.prob-sub{color:rgba(255,255,255,0.52);font-size:16px;line-height:1.75;max-width:520px;margin-bottom:52px;}
-.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.prob-stat{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:24px;transition:background .3s,border-color .3s;}
-.prob-stat:hover{background:rgba(74,222,128,0.04);border-color:rgba(74,222,128,0.14);}
-.ps-num{font-family:'DM Serif Display',serif;font-size:38px;font-weight:400;color:var(--glow);letter-spacing:-1px;line-height:1;}
-.ps-label{font-size:13px;color:rgba(255,255,255,0.52);margin-top:7px;line-height:1.6;}
+/* SCREENSHOTS SECTION */
+.screenshots-section{padding:120px 48px;background:var(--bg-dark);position:relative;overflow:hidden;}
+.screenshots-section::before{
+  content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+  width:800px;height:600px;
+  background:radial-gradient(ellipse,rgba(26,74,58,0.25) 0%,transparent 70%);
+  filter:blur(60px);pointer-events:none;
+}
+.screenshots-inner{max-width:1140px;width:100%;margin:0 auto;}
+.section-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--green-light);font-weight:500;margin-bottom:16px;}
+.section-title-dark{
+  font-family:'DM Serif Display',serif;font-size:clamp(36px,5vw,60px);font-weight:400;
+  letter-spacing:-.5px;line-height:1.05;color:var(--white);margin-bottom:16px;
+}
+.section-sub-dark{color:rgba(255,255,255,0.5);font-size:16px;line-height:1.7;max-width:440px;margin-bottom:72px;}
 
-/* INGREDIENT BREAKDOWN */
-.breakdown-section{padding:110px 44px;background:var(--bg-alt);}
-.breakdown-inner{max-width:1080px;margin:0 auto;}
-.ingredient-demo{margin-top:56px;display:flex;flex-direction:column;gap:10px;}
-.ing-card{background:white;border:1px solid var(--border);border-radius:14px;padding:18px 18px 18px 22px;position:relative;overflow:hidden;cursor:pointer;transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .28s,border-color .28s;}
-.ing-card:hover{transform:translateX(5px);box-shadow:0 6px 28px rgba(26,74,58,0.08);}
-.ing-card.expanded{border-color:var(--border-g);}
-.ing-bar{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;}
-.ing-bar.safe{background:var(--success);}
-.ing-bar.warn{background:var(--warning);}
-.ing-bar.bad{background:var(--danger);}
-.ing-bar.unknown{background:var(--text-3);}
-.ing-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
-.ing-left{}
-.ing-name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.ing-name{font-size:15px;font-weight:600;color:var(--text);}
-.ing-cat{font-size:10px;padding:3px 8px;border-radius:100px;font-weight:600;background:rgba(26,74,58,0.07);color:var(--primary);}
-.ing-risk{font-size:12px;font-weight:600;margin-top:3px;}
-.ing-risk.safe{color:var(--success);}
-.ing-risk.warn{color:var(--warning);}
-.ing-risk.bad{color:var(--danger);}
-.ing-toggle{font-size:11px;color:var(--text-3);transition:transform .28s;flex-shrink:0;margin-top:2px;white-space:nowrap;}
-.ing-card.expanded .ing-toggle{transform:rotate(180deg);}
-.ing-always{margin-top:10px;}
-.ing-sec-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--text-3);margin-bottom:4px;font-weight:500;}
-.ing-text{font-size:13px;color:var(--text-2);line-height:1.7;}
-.ing-expandable{overflow:hidden;max-height:0;opacity:0;transition:max-height .38s cubic-bezier(.16,1,.3,1),opacity .28s;}
-.ing-card.expanded .ing-expandable{max-height:400px;opacity:1;}
-.ing-exp-inner{padding-top:10px;border-top:1px solid var(--border);margin-top:10px;display:flex;flex-direction:column;gap:9px;}
-.ing-alts{font-size:13px;color:var(--success);font-weight:500;}
+.screens-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;align-items:flex-end;}
+.screen-card{display:flex;flex-direction:column;align-items:center;gap:24px;}
+.screen-device{
+  width:100%;max-width:220px;background:#141414;border-radius:40px;padding:12px;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.1),0 30px 80px rgba(0,0,0,0.6),0 0 60px rgba(26,74,58,0.15);
+  position:relative;transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.screen-device:hover{transform:translateY(-8px);}
+.screen-device::before{
+  content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);
+  width:50px;height:5px;border-radius:3px;background:rgba(255,255,255,0.12);z-index:2;
+}
+.screen-device-screen{border-radius:30px;overflow:hidden;aspect-ratio:1284/2778;background:#0a0a0a;}
+.screen-device-screen img{width:100%;height:100%;object-fit:cover;display:block;}
+.screen-card:nth-child(2) .screen-device{transform:translateY(-24px);}
+.screen-card:nth-child(2) .screen-device:hover{transform:translateY(-32px);}
+.screen-label{text-align:center;}
+.screen-label h3{font-family:'DM Serif Display',serif;font-size:20px;font-weight:400;color:var(--white);margin-bottom:6px;}
+.screen-label p{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;}
 
 /* FEATURES */
-.features{display:flex;flex-direction:column;gap:6px;}
-.feature-row{display:grid;grid-template-columns:38px 54px 1fr;align-items:center;gap:0 24px;padding:24px 18px;border:1px solid var(--border);border-radius:11px;background:var(--surface);cursor:default;transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .28s,background .28s;position:relative;}
-.feature-row:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(26,74,58,0.09),inset 3px 0 0 var(--primary);background:var(--surface-2);}
-.feat-dot{width:9px;height:9px;border-radius:50%;background:var(--primary);}
-.feat-num{font-family:'DM Serif Display',serif;font-size:11px;color:var(--accent);letter-spacing:2px;}
-.feat-body h3{font-size:15px;font-weight:600;margin-bottom:4px;color:var(--text);}
-.feat-body p{font-size:13px;color:var(--text-2);line-height:1.65;max-width:520px;}
+.features-section{padding:120px 48px;}
+.features-inner{max-width:1140px;width:100%;margin:0 auto;}
+.section-eyebrow-green{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--green);font-weight:500;margin-bottom:16px;}
+.section-title-light{
+  font-family:'DM Serif Display',serif;font-size:clamp(36px,5vw,58px);font-weight:400;
+  letter-spacing:-.5px;line-height:1.05;color:var(--text);margin-bottom:12px;
+}
+.section-sub-light{color:var(--muted);font-size:16px;line-height:1.7;max-width:440px;margin-bottom:72px;}
 
-/* HOW IT WORKS — 3D STEP CARDS */
-.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:60px;perspective:700px;}
-.step-card{background:white;border:1px solid var(--border);border-radius:18px;padding:28px 22px;position:relative;overflow:hidden;transform-style:preserve-3d;transition:transform .38s cubic-bezier(.16,1,.3,1),box-shadow .38s,border-color .38s;}
-.step-card:hover{transform:rotateX(-3deg) rotateY(3deg) translateY(-5px);box-shadow:0 18px 44px rgba(26,74,58,0.11),0 0 0 1px rgba(26,74,58,0.13);border-color:rgba(26,74,58,0.18);}
-.step-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--primary),transparent);opacity:0;transition:opacity .28s;}
-.step-card:hover::after{opacity:1;}
-.step-num{font-family:'DM Serif Display',serif;font-size:46px;font-weight:400;color:rgba(26,74,58,0.07);line-height:1;margin-bottom:14px;letter-spacing:-2px;}
-.step-icon{font-size:26px;margin-bottom:12px;}
-.step-title{font-family:'DM Serif Display',serif;font-size:20px;font-weight:400;margin-bottom:9px;}
-.step-body{font-size:13px;color:var(--text-2);line-height:1.7;}
+.features-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:2px;background:var(--border);border-radius:20px;overflow:hidden;
+}
+.feature-cell{background:var(--bg);padding:36px 32px;transition:background .25s;}
+.feature-cell:hover{background:var(--surface);}
+.feature-icon-wrap{
+  width:44px;height:44px;border-radius:12px;
+  background:rgba(26,74,58,0.08);border:1px solid rgba(26,74,58,0.12);
+  display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+  transition:background .25s,border-color .25s;
+}
+.feature-cell:hover .feature-icon-wrap{background:rgba(26,74,58,0.14);border-color:rgba(26,74,58,0.2);}
+.feature-icon-wrap svg{width:20px;height:20px;stroke:var(--green);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.feature-cell h3{font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.feature-cell p{font-size:14px;color:var(--muted);line-height:1.65;}
 
-/* GRADE SYSTEM */
-.grades-section{padding:110px 44px;background:var(--primary-dark);position:relative;overflow:hidden;}
-.grades-inner{max-width:1080px;margin:0 auto;}
-.gr-label{font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--glow);font-weight:500;margin-bottom:14px;}
-.gr-title{font-family:'DM Serif Display',serif;font-size:clamp(32px,4.2vw,52px);color:white;font-weight:400;line-height:1.07;margin-bottom:12px;}
-.gr-sub{color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;max-width:480px;margin-bottom:56px;}
-.grades-row{display:flex;gap:10px;flex-wrap:wrap;}
-.grade-pill{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:14px 20px;transition:background .28s,transform .28s;flex:1;min-width:150px;}
-.grade-pill:hover{background:rgba(255,255,255,0.07);transform:translateY(-3px);}
-.grade-circle{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:20px;flex-shrink:0;}
-.ga .grade-circle{background:rgba(74,222,128,0.18);border:1.5px solid var(--glow);color:var(--glow);}
-.gb .grade-circle{background:rgba(42,122,90,0.18);border:1.5px solid var(--success);color:var(--success);}
-.gc .grade-circle{background:rgba(196,146,42,0.18);border:1.5px solid var(--warning);color:var(--warning);}
-.gd .grade-circle{background:rgba(196,74,58,0.12);border:1.5px solid #d46050;color:#d46050;}
-.gf .grade-circle{background:rgba(196,74,58,0.22);border:2px solid var(--danger);color:var(--danger);}
-.gr-name{font-size:13px;font-weight:600;color:white;margin-bottom:2px;}
-.gr-desc{font-size:11px;color:rgba(255,255,255,0.4);line-height:1.5;}
+/* HOW IT WORKS */
+.how-section{padding:120px 48px;background:var(--bg-warm);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.how-inner{max-width:1140px;width:100%;margin:0 auto;}
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.how-steps{display:flex;flex-direction:column;}
+.how-step{display:flex;gap:28px;align-items:flex-start;padding:28px 0;border-bottom:1px solid var(--border);}
+.how-step:last-child{border-bottom:none;}
+.how-step-num{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:var(--green);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:15px;
+}
+.how-step-body h3{font-size:17px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.how-step-body p{font-size:14px;color:var(--muted);line-height:1.65;}
+.how-right{display:flex;justify-content:center;align-items:center;}
+.how-device{
+  width:210px;background:#0D1A14;border-radius:40px;padding:12px;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.1),0 30px 70px rgba(0,0,0,0.25),0 0 50px rgba(26,74,58,0.12);
+  position:relative;
+}
+.how-device::before{
+  content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);
+  width:50px;height:5px;border-radius:3px;background:rgba(255,255,255,0.14);z-index:2;
+}
+.how-device-screen{border-radius:30px;overflow:hidden;aspect-ratio:1284/2778;background:#0a0a0a;}
+.how-device-screen img{width:100%;height:100%;object-fit:cover;display:block;}
 
-/* SOCIAL PROOF */
-.proof-section{padding:110px 44px;background:var(--bg-alt);}
-.proof-inner{max-width:1080px;margin:0 auto;}
-.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:56px;}
-.proof-card{background:white;border:1px solid var(--border);border-radius:14px;padding:22px;transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .28s;}
-.proof-card:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(26,74,58,0.08);}
-.proof-stars{color:var(--accent);font-size:12px;margin-bottom:10px;}
-.proof-quote{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:18px;font-style:italic;}
-.proof-author{display:flex;align-items:center;gap:9px;}
-.proof-avatar{width:34px;height:34px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0;}
-.proof-name{font-size:13px;font-weight:600;color:var(--text);}
-.proof-handle{font-size:11px;color:var(--text-3);}
+/* SCROLL PROGRESS */
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--green);z-index:200;width:0%;transition:width .1s linear;pointer-events:none;}
 
-/* CTA */
-.cta-section{padding:130px 44px;text-align:center;position:relative;overflow:hidden;background:var(--primary-dark);}
-.cta-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:550px;background:radial-gradient(ellipse,rgba(74,222,128,0.07) 0%,transparent 65%);filter:blur(60px);pointer-events:none;}
-.cta-inner{position:relative;z-index:2;}
-.cta-label{font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--glow);font-weight:500;margin-bottom:18px;display:block;}
-.cta-title{font-family:'DM Serif Display',serif;font-size:clamp(34px,5.2vw,64px);font-weight:400;color:white;letter-spacing:-0.3px;line-height:1.05;margin-bottom:14px;}
-.cta-sub{font-size:16px;color:rgba(255,255,255,0.48);margin-bottom:44px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.65;}
-.cta-form{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:440px;margin:0 auto;}
-.cta-form input{flex:1;min-width:180px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:11px;padding:13px 18px;font-family:'DM Sans';font-size:14px;color:white;outline:none;transition:border-color .28s,background .28s;}
-.cta-form input::placeholder{color:rgba(255,255,255,0.32);}
-.cta-form input:focus{border-color:rgba(74,222,128,0.45);background:rgba(255,255,255,0.1);}
-.cta-form button{background:var(--glow);color:#0F2E24;border:none;padding:13px 24px;border-radius:11px;font-family:'DM Sans';font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s,transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s;white-space:nowrap;}
-.cta-form button:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 7px 24px rgba(74,222,128,0.28);}
-.cta-note{font-size:11px;color:rgba(255,255,255,0.3);margin-top:12px;}
+/* SPOTLIGHT (dark sections) */
+.spotlight{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;transition:opacity .4s ease;border-radius:inherit;background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(26,74,58,0.12),transparent 60%);}
+.screenshots-section:hover .spotlight,.cta-section:hover .spotlight{opacity:1;}
+
+/* 3D TILT */
+.screen-device,.feature-cell{transform-style:preserve-3d;}
+.tilt-wrap{transform-style:preserve-3d;}
+
+/* MAGNETIC */
+.mag{transition:transform .3s cubic-bezier(.16,1,.3,1);}
+
+/* REVEAL */
+.reveal{
+  opacity:0;transform:translateY(40px);filter:blur(4px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1),filter .7s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0);filter:blur(0);}
+.reveal-grid>[class]{
+  opacity:0;transform:translateY(30px);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
+}
+.reveal-grid.visible>[class]:nth-child(1){opacity:1;transform:none;transition-delay:.05s;}
+.reveal-grid.visible>[class]:nth-child(2){opacity:1;transform:none;transition-delay:.13s;}
+.reveal-grid.visible>[class]:nth-child(3){opacity:1;transform:none;transition-delay:.21s;}
+.reveal-grid.visible>[class]:nth-child(4){opacity:1;transform:none;transition-delay:.29s;}
+.reveal-grid.visible>[class]:nth-child(5){opacity:1;transform:none;transition-delay:.37s;}
+.reveal-grid.visible>[class]:nth-child(6){opacity:1;transform:none;transition-delay:.45s;}
+
+/* CTA SECTION */
+.cta-section{padding:140px 48px;background:var(--bg-dark);position:relative;overflow:hidden;text-align:center;}
+.cta-section::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:900px;height:600px;
+  background:radial-gradient(ellipse,rgba(26,74,58,0.3) 0%,transparent 65%);
+  filter:blur(80px);pointer-events:none;
+}
+.cta-inner{position:relative;z-index:2;max-width:580px;margin:0 auto;}
+.cta-title{
+  font-family:'DM Serif Display',serif;font-size:clamp(40px,6vw,72px);font-weight:400;
+  letter-spacing:-1px;line-height:1.0;color:var(--white);margin-bottom:20px;
+}
+.cta-title em{font-style:italic;color:var(--green-light);}
+.cta-sub{font-size:17px;color:rgba(255,255,255,0.5);line-height:1.65;margin-bottom:44px;}
+.cta-form{
+  display:flex;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);
+  border-radius:16px;padding:8px 8px 8px 20px;margin-bottom:16px;
+  transition:border-color .25s,box-shadow .25s;
+}
+.cta-form:focus-within{border-color:rgba(26,74,58,0.5);box-shadow:0 0 0 3px rgba(26,74,58,0.15);}
+.cta-form input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--white);font-family:'DM Sans';font-size:15px;min-width:0;
+}
+.cta-form input::placeholder{color:rgba(255,255,255,0.3);}
+.cta-form button{
+  background:var(--gold);color:var(--text);border:none;
+  padding:14px 24px;border-radius:10px;
+  font-family:'DM Sans';font-size:14px;font-weight:600;
+  cursor:pointer;white-space:nowrap;
+  transition:background .2s,transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s;
+}
+.cta-form button:hover{background:var(--gold-dark);transform:translateY(-1px);box-shadow:0 6px 24px rgba(212,168,67,0.4);}
+.cta-form button:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.cta-note{font-size:12px;color:rgba(255,255,255,0.3);}
 
 /* FOOTER */
-footer{border-top:1px solid var(--border);padding:26px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:var(--surface);position:relative;z-index:1;}
-.footer-logo{font-family:'DM Serif Display',serif;font-size:16px;color:var(--text);}
-.footer-links{display:flex;gap:20px;flex-wrap:wrap;}
-.footer-link{font-size:12px;color:var(--text-2);text-decoration:none;transition:color .2s;}
+footer{
+  border-top:1px solid var(--border);padding:28px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;background:var(--bg-warm);position:relative;z-index:1;
+}
+.footer-logo{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);}
+.footer-links{display:flex;gap:24px;}
+.footer-link{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;}
 .footer-link:hover{color:var(--text);}
-footer p{font-size:11px;color:var(--text-3);}
+footer p{font-size:12px;color:var(--muted);}
 
-/* MOBILE */
-@media(max-width:860px){
-  .hero{grid-template-columns:1fr;padding:110px 24px 80px;gap:40px;}
-  .phone-scene{order:-1;}
-  .problem-grid{grid-template-columns:1fr;}
-  .steps-grid{grid-template-columns:1fr;}
-  .grades-row{flex-direction:column;}
-  .proof-grid{grid-template-columns:1fr;}
-}
-@media(max-width:700px){
-  nav{padding:15px 20px;}
-  nav.scrolled{padding:11px 20px;}
-  .section,.breakdown-section,.grades-section,.proof-section,.cta-section,.problem-section{padding:80px 20px;}
-  footer{padding:22px 20px;flex-direction:column;text-align:center;}
-  .footer-links{justify-content:center;}
-  .waitlist{flex-direction:column;padding:10px;gap:7px;}
-  .waitlist input{padding:4px 0;}
-  .waitlist button{width:100%;padding:13px;border-radius:7px;}
-  .feature-row{grid-template-columns:32px 44px 1fr;gap:0 12px;padding:18px 10px;}
-  .cta-form{flex-direction:column;}
-  .cta-form input,.cta-form button{width:100%;}
-  .problem-grid{grid-template-columns:1fr;}
-}
-@media(max-width:500px){
-  .proof-grid{grid-template-columns:1fr;}
-  .phone-3d{width:170px;height:320px;}
-}
+/* REDUCED MOTION */
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
-  h1 .word,.hero-sub,.waitlist-wrap,.proof{opacity:1;transform:none;transition:none;}
-  .js .reveal{opacity:1;transform:none;filter:none;transition:none;}
-  .divider::after{transform:scaleX(1);transition:none;}
+  .reveal,.reveal-grid>[class]{opacity:1;transform:none;filter:none;}
+  .hero-badge,.hero-headline,.hero-sub,.waitlist-group,.hero-proof,.hero-phone{opacity:1;transform:none;}
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;gap:56px;}
+  .hero-phone{order:-1;}
+  .device{width:200px;}
+  .screens-grid{grid-template-columns:1fr;gap:40px;max-width:280px;margin:0 auto;}
+  .screen-card:nth-child(2) .screen-device{transform:none;}
+  .screen-card:nth-child(2) .screen-device:hover{transform:translateY(-8px);}
+  .how-grid{grid-template-columns:1fr;}
+  .how-right{display:none;}
+  .features-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:640px){
+  nav,nav.scrolled{padding:14px 20px;}
+  .hero{padding:100px 20px 64px;}
+  .device{width:180px;}
+  .chips-bar::before,.chips-bar::after{width:60px;}
+  .screenshots-section,.features-section,.how-section,.cta-section{padding:80px 20px;}
+  .features-grid{grid-template-columns:1fr;}
+  .waitlist-form{flex-direction:column;padding:12px;gap:8px;}
+  .waitlist-form input{padding:4px 0;}
+  .waitlist-form button{width:100%;padding:14px;border-radius:10px;}
+  .cta-form{flex-direction:column;padding:12px;gap:8px;}
+  .cta-form input{padding:4px 0;}
+  .cta-form button{width:100%;padding:14px;border-radius:10px;}
+  footer{flex-direction:column;text-align:center;padding:24px 20px;}
+  .footer-links{justify-content:center;}
 }
 </style>
-<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+
+<div id="progress-bar" class="progress-bar" aria-hidden="true"></div>
 <div class="ambient" aria-hidden="true"></div>
 
+<!-- NAV -->
 <nav id="main-nav">
-  <a href="index.html" class="nav-back">← Apex.</a>
+  <a href="index.html" class="nav-back">&#8592; Apexx</a>
   <div class="nav-logo" aria-label="PureLabel">PL</div>
-  <button class="nav-cta" onclick="document.querySelector('.waitlist input').focus();window.scrollTo({top:0,behavior:'smooth'})">Join Waitlist</button>
+  <a href="#waitlist" class="nav-cta">Join Waitlist</a>
 </nav>
 
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-badge"><span class="bdot"></span>Now accepting early access · iOS</div>
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
 
-    <h1>
-      <span class="word">The</span> <span class="word">app</span> <span class="word">that</span> <span class="word">shows</span> <span class="word">you</span><br>
-      <em><span class="word" style="font-style:italic;color:var(--primary);">what's really</span></em><br>
-      <span class="word">in</span> <span class="word">your</span> <span class="word">food.</span>
-    </h1>
+    <div class="hero-left">
+      <div class="hero-badge" id="hero-badge">
+        <span class="badge-pulse"></span>
+        Early access — now open
+      </div>
 
-    <p class="hero-sub">Scan any barcode. PureLabel's AI breaks down every ingredient — what it is, where it comes from, and exactly why it might be harming you. No jargon. No guessing.</p>
+      <h1 class="hero-headline" id="hero-headline">
+        Know exactly<br>
+        <em>what's really</em><br>
+        in your food.
+      </h1>
 
-    <div class="waitlist-wrap" id="hero-form-area">
-      <form action="https://formspree.io/f/mzdkonjq" method="POST" class="waitlist" id="waitlist-form">
-        <input type="email" name="email" placeholder="Your email address" required autocomplete="email"/>
-        <button type="submit">Join Waitlist →</button>
-      </form>
-      <p class="wl-note">Early users get lifetime perks. No spam, ever.</p>
+      <p class="hero-sub" id="hero-sub">
+        Scan any product and instantly see hidden chemicals, misleading labels, and an AI-powered breakdown of every ingredient — in plain English.
+      </p>
+
+      <div class="waitlist-group" id="waitlist-group">
+        <div id="hero-form-wrap">
+          <form class="waitlist-form" action="https://formspree.io/f/mzdkonjq" method="POST" id="hero-form">
+            <input id="hero-email" type="email" name="email" placeholder="Enter your email" required autocomplete="email"/>
+            <button type="submit">Join Waitlist &rarr;</button>
+          </form>
+          <p class="waitlist-note">No spam, ever. Early users get lifetime perks.</p>
+        </div>
+      </div>
+
+      <div class="hero-proof" id="hero-proof">
+        <div class="proof-avatars">
+          <div class="proof-avatar">JR</div>
+          <div class="proof-avatar">KT</div>
+          <div class="proof-avatar">AL</div>
+          <div class="proof-avatar">MR</div>
+        </div>
+        <p class="proof-text"><strong>500+</strong> people already on the list</p>
+      </div>
     </div>
 
-    <div class="proof" id="hero-proof">
-      <div class="avatars"><div class="av">JR</div><div class="av">KT</div><div class="av">AL</div></div>
-      <p class="proof-text"><strong>Hundreds</strong> already on the list</p>
+    <div class="hero-phone" id="hero-phone">
+      <div class="device" role="img" aria-label="PureLabel app showing food scanner">
+        <div class="device-screen">
+          <img src="../../assets/screenshots/screenshot-1-scanner.png" alt="PureLabel scanner screen" loading="eager"/>
+        </div>
+        <div class="device-btn device-btn-1"></div>
+        <div class="device-btn device-btn-2"></div>
+        <div class="device-btn-l"></div>
+        <span class="device-label">PureLabel for iOS</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- INGREDIENT CHIP MARQUEE -->
+<div class="chips-bar" aria-label="What PureLabel exposes">
+  <div class="chips-track">
+    <div class="chips-set">
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>Titanium Dioxide</div>
+      <div class="chip-sep" aria-hidden="true">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>Red 40</div>
+      <div class="chip-sep" aria-hidden="true">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--yellow"></span>Natural Flavor</div>
+      <div class="chip-sep" aria-hidden="true">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>BHA / BHT</div>
+      <div class="chip-sep" aria-hidden="true">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--yellow"></span>Carrageenan</div>
+      <div class="chip-sep" aria-hidden="true">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>High Fructose Corn Syrup</div>
+      <div class="chip-sep" aria-hidden="true">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>TBHQ</div>
+      <div class="chip-sep" aria-hidden="true">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--yellow"></span>Sodium Nitrate</div>
+      <div class="chip-sep" aria-hidden="true">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--green"></span>Organic Cane Sugar</div>
+      <div class="chip-sep" aria-hidden="true">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>Potassium Bromate</div>
+      <div class="chip-sep" aria-hidden="true">·</div>
+    </div>
+    <div class="chips-set" aria-hidden="true">
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>Titanium Dioxide</div>
+      <div class="chip-sep">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>Red 40</div>
+      <div class="chip-sep">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--yellow"></span>Natural Flavor</div>
+      <div class="chip-sep">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>BHA / BHT</div>
+      <div class="chip-sep">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--yellow"></span>Carrageenan</div>
+      <div class="chip-sep">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>High Fructose Corn Syrup</div>
+      <div class="chip-sep">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>TBHQ</div>
+      <div class="chip-sep">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--yellow"></span>Sodium Nitrate</div>
+      <div class="chip-sep">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--green"></span>Organic Cane Sugar</div>
+      <div class="chip-sep">·</div>
+      <div class="chip"><span class="chip-dot chip-dot--red"></span>Potassium Bromate</div>
+      <div class="chip-sep">·</div>
     </div>
   </div>
+</div>
 
-  <div class="phone-scene">
-    <div class="phone-glow"></div>
-    <div class="chips-float" aria-hidden="true">
-      <div class="fchip bad" style="top:22%;left:-24px;animation-duration:7s;animation-delay:0s;">Red 40 ⚠</div>
-      <div class="fchip warn" style="top:42%;right:-18px;animation-duration:9s;animation-delay:1.5s;">TBHQ</div>
-      <div class="fchip bad" style="top:64%;left:-36px;animation-duration:8s;animation-delay:3s;">Titanium Dioxide</div>
-      <div class="fchip safe" style="top:16%;right:-8px;animation-duration:10s;animation-delay:0.8s;">Turmeric ✓</div>
-      <div class="fchip warn" style="bottom:22%;right:-32px;animation-duration:7.5s;animation-delay:2s;">Carrageenan</div>
+<!-- APP SCREENSHOTS -->
+<section class="screenshots-section">
+  <div class="spotlight" aria-hidden="true"></div>
+  <div class="screenshots-inner">
+    <p class="section-eyebrow reveal">The App</p>
+    <h2 class="section-title-dark reveal">Three screens. Total clarity.</h2>
+    <p class="section-sub-dark reveal">Everything you need to know before the food hits your cart.</p>
+
+    <div class="screens-grid reveal-grid">
+      <div class="screen-card">
+        <div class="screen-device">
+          <div class="screen-device-screen">
+            <img src="../../assets/screenshots/screenshot-1-scanner.png" alt="PureLabel scanner" loading="lazy"/>
+          </div>
+        </div>
+        <div class="screen-label">
+          <h3>Scan</h3>
+          <p>Point at any barcode.<br>Results in under 3 seconds.</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-device">
+          <div class="screen-device-screen">
+            <img src="../../assets/screenshots/screenshot-2-ingredients.png" alt="PureLabel ingredient breakdown" loading="lazy"/>
+          </div>
+        </div>
+        <div class="screen-label">
+          <h3>Analyze</h3>
+          <p>AI breaks down every ingredient.<br>Flags what the label hides.</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-device">
+          <div class="screen-device-screen">
+            <img src="../../assets/screenshots/screenshot-3-diary.png" alt="PureLabel nutrition diary" loading="lazy"/>
+          </div>
+        </div>
+        <div class="screen-label">
+          <h3>Track</h3>
+          <p>Log nutrition as you scan.<br>No manual entry ever.</p>
+        </div>
+      </div>
     </div>
-    <div class="phone-3d">
-      <div class="phone-body">
-        <div class="phone-island"></div>
-        <div class="phone-scan-line"></div>
-        <div class="phone-screen">
-          <div class="screen-content">
-            <div class="screen-hdr">
-              <div class="screen-logo">PURELABEL</div>
-              <div class="screen-grade">B</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-inner">
+    <p class="section-eyebrow-green reveal">Why PureLabel</p>
+    <h2 class="section-title-light reveal">Food companies hide a lot.<br>We expose all of it.</h2>
+    <p class="section-sub-light reveal">PureLabel translates ingredient lists into plain English — and flags every red flag before it ends up in your body.</p>
+
+    <div class="features-grid reveal-grid">
+      <div class="feature-cell">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h3>Hidden Chemical Flags</h3>
+        <p>Banned in Europe, still legal here. We flag every additive linked to health risks — before you buy.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h3>AI Ingredient Breakdown</h3>
+        <p>Ask anything. Get plain-English answers backed by real research — not marketing speak.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M12 2a9 9 0 1 1 0 18A9 9 0 0 1 12 2z"/></svg>
+        </div>
+        <h3>Fake "Healthy" Decoder</h3>
+        <p>"Natural," "clean," "wholesome" — marketing lies exposed instantly. We go beyond buzzwords.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <h3>Automatic Nutrition Diary</h3>
+        <p>Scan a product and nutrition logs itself. No typing, no guessing — just accurate tracking.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        </div>
+        <h3>Personalized Alerts</h3>
+        <p>Set your allergies, intolerances, and goals. Get instant red flags on anything that conflicts.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <h3>1M+ Products</h3>
+        <p>Works instantly on over a million barcodes. If it's in a store, we've got it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="how-inner">
+    <div class="how-grid">
+      <div>
+        <p class="section-eyebrow-green reveal">How It Works</p>
+        <h2 class="section-title-light reveal">Three seconds<br>to the truth.</h2>
+        <div class="how-steps reveal">
+          <div class="how-step">
+            <div class="how-step-num">1</div>
+            <div class="how-step-body">
+              <h3>Scan any barcode</h3>
+              <p>Point your camera at any product. Works on groceries, supplements, snacks — anything with a barcode.</p>
             </div>
-            <div class="screen-prod">Whole Grain Crackers</div>
-            <div class="screen-sub2">9 ingredients · 2 flagged</div>
-            <div class="screen-cards">
-              <div class="sc safe"><span class="sc-badge safe">Safe</span><div class="sc-name">Whole Wheat Flour</div><div class="sc-risk">✓ Natural grain</div></div>
-              <div class="sc warn"><span class="sc-badge warn">Moderate</span><div class="sc-name">Soybean Oil</div><div class="sc-risk">⚠ High omega-6</div></div>
-              <div class="sc bad"><span class="sc-badge bad">Avoid</span><div class="sc-name">TBHQ</div><div class="sc-risk">⛔ Synthetic preservative</div></div>
-              <div class="sc safe"><span class="sc-badge safe">Safe</span><div class="sc-name">Sea Salt</div><div class="sc-risk">✓ Mineral</div></div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">2</div>
+            <div class="how-step-body">
+              <h3>AI analyzes every ingredient</h3>
+              <p>Claude AI reads the full ingredient list, cross-references research, and scores each ingredient for you.</p>
             </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">3</div>
+            <div class="how-step-body">
+              <h3>Know exactly what you're eating</h3>
+              <p>See plain-English explanations, red flags, health scores, and macros — all before it goes in your cart.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="how-right reveal">
+        <div class="how-device" role="img" aria-label="PureLabel ingredient breakdown screen">
+          <div class="how-device-screen">
+            <img src="../../assets/screenshots/screenshot-2-ingredients.png" alt="Ingredient analysis screen" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -368,235 +704,190 @@ footer p{font-size:11px;color:var(--text-3);}
   </div>
 </section>
 
-<div class="divider" id="d1"></div>
-
-<section class="problem-section">
-  <div class="problem-inner">
-    <p class="prob-label reveal">Why This Exists</p>
-    <h2 class="prob-title reveal">Most people have <em>no idea</em><br>what they're actually eating.</h2>
-    <p class="prob-sub reveal">Food manufacturers are legally allowed to hide ingredients under vague terms, use chemicals banned in Europe, and make health claims with zero evidence. PureLabel exists to fix that.</p>
-    <div class="problem-grid">
-      <div class="prob-stat reveal"><div class="ps-num">10,000+</div><div class="ps-label">Additives approved in US food — many with no long-term safety data</div></div>
-      <div class="prob-stat reveal"><div class="ps-num">72%</div><div class="ps-label">Of Americans say they can't understand food ingredient labels</div></div>
-      <div class="prob-stat reveal"><div class="ps-num">48</div><div class="ps-label">Ingredients legal in the US that are banned in the EU, Canada, or Australia</div></div>
-      <div class="prob-stat reveal"><div class="ps-num">&lt;3s</div><div class="ps-label">How long PureLabel takes to give you a full, plain-English breakdown</div></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider" id="d2"></div>
-
-<section class="breakdown-section">
-  <div class="breakdown-inner">
-    <p class="sec-label reveal">Real Ingredient Analysis</p>
-    <h2 class="sec-title reveal" style="margin-bottom:10px;">Not just a traffic light.<br>A real explanation.</h2>
-    <p class="sec-sub reveal" style="margin-bottom:0;">Every ingredient gets a full breakdown. Tap any card to learn more.</p>
-    <div class="ingredient-demo">
-      <div class="ing-card" data-expand>
-        <div class="ing-bar safe"></div>
-        <div class="ing-top">
-          <div class="ing-left"><div class="ing-name-row"><span class="ing-name">Whole Wheat Flour</span><span class="ing-cat">Grain</span></div><div class="ing-risk safe">✅ Generally Safe</div></div>
-          <span class="ing-toggle">▾</span>
-        </div>
-        <div class="ing-always"><div class="ing-sec-label">What is it?</div><div class="ing-text">Ground wheat grain with the bran and germ intact. The least processed form of wheat flour, retaining fiber and nutrients that white flour loses during processing.</div></div>
-        <div class="ing-expandable"><div class="ing-exp-inner"><div><div class="ing-sec-label">Why it matters for you</div><div class="ing-text">A whole food ingredient with a well-established nutritional profile. Provides dietary fiber supporting gut health, B vitamins for energy metabolism, and minerals like magnesium. Note: not suitable for those with celiac disease or gluten sensitivity.</div></div></div></div>
-      </div>
-
-      <div class="ing-card" data-expand>
-        <div class="ing-bar warn"></div>
-        <div class="ing-top">
-          <div class="ing-left"><div class="ing-name-row"><span class="ing-name">Soybean Oil</span><span class="ing-cat">Vegetable Oil</span></div><div class="ing-risk warn">⚠️ Moderate Concern</div></div>
-          <span class="ing-toggle">▾</span>
-        </div>
-        <div class="ing-always"><div class="ing-sec-label">What is it?</div><div class="ing-text">Oil extracted from soybeans. One of the most widely used cooking oils in processed foods due to its low cost and high smoke point. Over 90% of US soybean crops are genetically modified.</div></div>
-        <div class="ing-expandable"><div class="ing-exp-inner"><div><div class="ing-sec-label">Why it matters for you</div><div class="ing-text">Contains very high levels of omega-6 polyunsaturated fats. The modern Western diet already has far too much omega-6 relative to omega-3, which multiple studies link to chronic inflammation. Worth being mindful of your total consumption across products.</div></div><div><div class="ing-sec-label">Better alternatives</div><div class="ing-alts">✓ Look for: Avocado oil · Extra virgin olive oil · Coconut oil</div></div></div></div>
-      </div>
-
-      <div class="ing-card" data-expand>
-        <div class="ing-bar bad"></div>
-        <div class="ing-top">
-          <div class="ing-left"><div class="ing-name-row"><span class="ing-name">TBHQ</span><span class="ing-cat">Preservative</span></div><div class="ing-risk bad">🚫 Avoid This</div></div>
-          <span class="ing-toggle">▾</span>
-        </div>
-        <div class="ing-always"><div class="ing-sec-label">What is it?</div><div class="ing-text">Tertiary Butylhydroquinone — a synthetic antioxidant preservative derived from petroleum. Used to extend the shelf life of fats and oils. Banned in Japan and restricted in Europe.</div></div>
-        <div class="ing-expandable"><div class="ing-exp-inner"><div><div class="ing-sec-label">Why it matters for you</div><div class="ing-text">Animal studies have shown TBHQ causes precancerous stomach tumors at higher doses. A 2020 study linked it to immune system disruption in humans. It appears in dozens of products people eat daily, creating cumulative exposure that's not well studied.</div></div><div><div class="ing-sec-label">Better alternatives</div><div class="ing-alts">✓ Look for: Rosemary extract · Vitamin E (tocopherols) · No added preservatives</div></div></div></div>
-      </div>
-
-      <div class="ing-card" data-expand>
-        <div class="ing-bar warn"></div>
-        <div class="ing-top">
-          <div class="ing-left"><div class="ing-name-row"><span class="ing-name">Natural Flavors</span><span class="ing-cat">Flavoring Agent</span></div><div class="ing-risk warn">⚠️ Moderate Concern</div></div>
-          <span class="ing-toggle">▾</span>
-        </div>
-        <div class="ing-always"><div class="ing-sec-label">What is it?</div><div class="ing-text">A catch-all term that legally allows manufacturers to use any of over 2,800 approved flavoring substances without disclosing them specifically on the label.</div></div>
-        <div class="ing-expandable"><div class="ing-exp-inner"><div><div class="ing-sec-label">Why it matters for you</div><div class="ing-text">The term is deliberately vague. Because manufacturers don't have to disclose what's inside "natural flavors," people with allergies or dietary restrictions (halal, kosher, vegan) have no way of knowing what they're consuming. PureLabel flags this so you can make an informed decision.</div></div></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider" id="d3"></div>
-
-<section class="section">
-  <p class="sec-label reveal">Features</p>
-  <h2 class="sec-title reveal">Everything you need to eat<br>with confidence.</h2>
-  <p class="sec-sub reveal">PureLabel goes beyond a simple scanner. It's a complete system for understanding your food.</p>
-  <div class="features">
-    <div class="feature-row reveal"><span class="feat-dot"></span><span class="feat-num">01</span><div class="feat-body"><h3>Hidden Chemical Detection</h3><p>We flag every additive that's banned in other developed countries, linked to adverse health effects in research, or commonly misrepresented on labels — with a real explanation, not just a color code.</p></div></div>
-    <div class="feature-row reveal"><span class="feat-dot"></span><span class="feat-num">02</span><div class="feat-body"><h3>Fake "Healthy" Label Decoder</h3><p>"Natural," "clean," "wholesome" — marketing claims decoded instantly. We cross-reference what the label says against what the ingredients list actually contains.</p></div></div>
-    <div class="feature-row reveal"><span class="feat-dot"></span><span class="feat-num">03</span><div class="feat-body"><h3>A–F Product Grading</h3><p>Every product gets a letter grade based on ingredient quality and safety. A is genuinely clean. F means stay away. No ambiguity, no guessing.</p></div></div>
-    <div class="feature-row reveal"><span class="feat-dot"></span><span class="feat-num">04</span><div class="feat-body"><h3>Personalized Alerts</h3><p>Set your dietary profile — allergies, intolerances, preferences — and get instant red flags when a scanned product conflicts with your needs.</p></div></div>
-    <div class="feature-row reveal"><span class="feat-dot"></span><span class="feat-num">05</span><div class="feat-body"><h3>Clean Eating Diary</h3><p>Automatically log every product you scan. Over time, PureLabel shows you patterns — which additives you're most exposed to and where to make changes.</p></div></div>
-    <div class="feature-row reveal"><span class="feat-dot"></span><span class="feat-num">06</span><div class="feat-body"><h3>1M+ Product Database</h3><p>Scan virtually any grocery product in the US. Instant results. Works offline for recent scans. No waiting, no loading screens.</p></div></div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;">
-  <p class="sec-label reveal">How It Works</p>
-  <h2 class="sec-title reveal" style="margin-bottom:0;">Three seconds to the truth.</h2>
-  <div class="steps-grid">
-    <div class="step-card reveal"><div class="step-num">01</div><div class="step-icon">📸</div><div class="step-title">Scan</div><div class="step-body">Point your camera at any barcode. PureLabel reads it instantly — no manual entry, no typing.</div></div>
-    <div class="step-card reveal"><div class="step-num">02</div><div class="step-icon">🤖</div><div class="step-title">Analyze</div><div class="step-body">Our AI looks up every ingredient, cross-references research, flags concerns, and builds a complete breakdown in under 3 seconds.</div></div>
-    <div class="step-card reveal"><div class="step-num">03</div><div class="step-icon">✅</div><div class="step-title">Know</div><div class="step-body">See exactly what's in your food, why each ingredient matters, and whether this product deserves a place in your cart.</div></div>
-  </div>
-</section>
-
-<section class="grades-section">
-  <div class="grades-inner">
-    <p class="gr-label reveal">Grading System</p>
-    <h2 class="gr-title reveal">A clear verdict.<br>Every time.</h2>
-    <p class="gr-sub reveal">PureLabel assigns every product a letter grade based on ingredient quality, additive safety, and label honesty.</p>
-    <div class="grades-row">
-      <div class="grade-pill ga reveal"><div class="grade-circle">A</div><div><div class="gr-name">Clean Product</div><div class="gr-desc">Whole food ingredients, no concerning additives</div></div></div>
-      <div class="grade-pill gb reveal"><div class="grade-circle">B</div><div><div class="gr-name">Mostly Clean</div><div class="gr-desc">Minor concerns, acceptable for regular consumption</div></div></div>
-      <div class="grade-pill gc reveal"><div class="grade-circle">C</div><div><div class="gr-name">Use Caution</div><div class="gr-desc">Some problematic ingredients — worth limiting</div></div></div>
-      <div class="grade-pill gd reveal"><div class="grade-circle">D</div><div><div class="gr-name">Concerning</div><div class="gr-desc">Multiple red-flag additives or misleading claims</div></div></div>
-      <div class="grade-pill gf reveal"><div class="grade-circle">F</div><div><div class="gr-name">Avoid</div><div class="gr-desc">Banned chemicals, harmful additives, severe deception</div></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="proof-section">
-  <div class="proof-inner">
-    <p class="sec-label reveal">Early Reactions</p>
-    <h2 class="sec-title reveal" style="margin-bottom:56px;">People are waking up<br>to what's in their food.</h2>
-    <div class="proof-grid">
-      <div class="proof-card reveal"><div class="proof-stars">★★★★★</div><p class="proof-quote">"I scanned my kid's 'healthy' granola bar and it came back with a D grade. Three banned preservatives. I would have never known."</p><div class="proof-author"><div class="proof-avatar" style="background:#2A7A5A;">SM</div><div><div class="proof-name">Sarah M.</div><div class="proof-handle">Beta tester</div></div></div></div>
-      <div class="proof-card reveal"><div class="proof-stars">★★★★★</div><p class="proof-quote">"The ingredient explanations are incredible. It doesn't just say 'bad' — it tells you exactly what the research says and what to use instead."</p><div class="proof-author"><div class="proof-avatar" style="background:#C4922A;color:#1C1A17;">DK</div><div><div class="proof-name">Daniel K.</div><div class="proof-handle">Nutrition enthusiast</div></div></div></div>
-      <div class="proof-card reveal"><div class="proof-stars">★★★★★</div><p class="proof-quote">"I've tried Yuka and other apps. PureLabel is different — the AI explanations are so much more detailed and the grading actually makes sense."</p><div class="proof-author"><div class="proof-avatar">RL</div><div><div class="proof-name">Rachel L.</div><div class="proof-handle">Waitlist member</div></div></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="cta-section">
+<!-- FINAL CTA -->
+<section class="cta-section" id="waitlist">
+  <div class="spotlight" aria-hidden="true"></div>
   <div class="cta-inner reveal">
-    <span class="cta-label">Get Early Access</span>
-    <h2 class="cta-title">Stop guessing.<br>Start knowing.</h2>
-    <p class="cta-sub">Join the waitlist and be first when we launch on iOS. Early users get lifetime perks.</p>
-    <div id="cta-form-area">
-      <form action="https://formspree.io/f/mzdkonjq" method="POST" class="cta-form">
+    <h2 class="cta-title">Stop guessing.<br><em>Start knowing.</em></h2>
+    <p class="cta-sub">Join the waitlist and be first when we launch. Early users get lifetime perks.</p>
+    <div id="cta-form-wrap">
+      <form class="cta-form" action="https://formspree.io/f/mzdkonjq" method="POST" id="cta-form">
         <input type="email" name="email" placeholder="Enter your email" required autocomplete="email"/>
-        <button type="submit">Get Early Access →</button>
+        <button type="submit">Get Early Access &rarr;</button>
       </form>
-      <p class="cta-note">No spam. Unsubscribe anytime. Early users get founding member pricing.</p>
+      <p class="cta-note">No credit card. No spam. Unsubscribe anytime.</p>
     </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-logo">PureLabel</div>
   <div class="footer-links">
-    <a href="index.html" class="footer-link">← Back to Apex</a>
-    <a href="https://apexxholdings.notion.site/privacy" target="_blank" class="footer-link">Privacy</a>
-    <a href="https://apexxholdings.notion.site/terms" target="_blank" class="footer-link">Terms</a>
+    <a href="index.html" class="footer-link">Apexx Holdings</a>
     <a href="mailto:jerry@apexxholdings.com" class="footer-link">Contact</a>
   </div>
-  <p>&copy; 2026 Apex Holdings Group LLC</p>
+  <p>&copy; 2025 Apexx Holdings Group LLC</p>
 </footer>
 
 <script>
 (function(){
+  'use strict';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* NAV */
   var nav = document.getElementById('main-nav');
-  window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 8); }, {passive:true});
+  var raf = false;
+  function updateNav(){nav.classList.toggle('scrolled',window.scrollY>8);raf=false;}
+  window.addEventListener('scroll',function(){if(!raf){raf=true;requestAnimationFrame(updateNav);}},{passive:true});
 
-  /* WORD STAGGER */
-  var words = document.querySelectorAll('h1 .word');
-  function showWords(){
-    words.forEach(function(w,i){ setTimeout(function(){ w.classList.add('in'); }, 120 + i * 60); });
-    var d = 120 + words.length * 60;
-    setTimeout(function(){ var el = document.querySelector('.hero-sub'); if(el) el.classList.add('in'); }, d + 40);
-    setTimeout(function(){ var el = document.getElementById('hero-form-area'); if(el) el.classList.add('in'); }, d + 160);
-    setTimeout(function(){ var el = document.getElementById('hero-proof'); if(el) el.classList.add('in'); }, d + 300);
-  }
-  if(!reduced){ showWords(); } else {
-    words.forEach(function(w){ w.classList.add('in'); });
-    ['hero-sub','hero-form-area','hero-proof'].forEach(function(id){
-      var el = document.getElementById(id); if(el) el.classList.add('in');
-    });
-  }
-
-  /* INGREDIENT EXPAND */
-  document.querySelectorAll('[data-expand]').forEach(function(card){
-    card.addEventListener('click', function(){
-      var was = card.classList.contains('expanded');
-      document.querySelectorAll('[data-expand].expanded').forEach(function(c){ c.classList.remove('expanded'); });
-      if(!was) card.classList.add('expanded');
-    });
+  /* HERO ENTRANCE */
+  var delays = {
+    'hero-badge':80,'hero-headline':200,'hero-sub':380,
+    'waitlist-group':500,'hero-proof':650,'hero-phone':280
+  };
+  Object.keys(delays).forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    setTimeout(function(){el.classList.add('in');},reduced?0:delays[id]);
   });
 
-  /* FORMS */
-  document.querySelectorAll('form[action*="formspree"]').forEach(function(form){
-    form.addEventListener('submit', function(e){
+  /* FORM AJAX */
+  function wireForm(formId, wrapId){
+    var form = document.getElementById(formId);
+    if(!form) return;
+    form.addEventListener('submit',function(e){
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
-      btn.textContent = 'Sending…'; btn.disabled = true;
-      fetch(form.action, {method:'POST', body:new FormData(form), headers:{'Accept':'application/json'}})
-        .then(function(res){
-          if(res.ok){
-            var wrap = form.closest('.waitlist-wrap') || form.closest('#hero-form-area') || form.closest('#cta-form-area') || form.parentElement;
-            if(wrap){ while(wrap.firstChild) wrap.removeChild(wrap.firstChild); var msg = document.createElement('p'); msg.className = 'success-msg'; msg.textContent = "You're on the list. We'll be in touch soon."; wrap.appendChild(msg); }
-          } else { btn.textContent = 'Try again'; btn.disabled = false; }
-        }).catch(function(){ btn.textContent = 'Try again'; btn.disabled = false; });
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      fetch(form.action,{
+        method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}
+      }).then(function(res){
+        var wrap = document.getElementById(wrapId);
+        if(res.ok && wrap){
+          while(wrap.firstChild) wrap.removeChild(wrap.firstChild);
+          var msg = document.createElement('p');
+          msg.className = 'success-msg';
+          msg.innerHTML = '&#10003;&nbsp;You\'re on the list. We\'ll be in touch.';
+          wrap.appendChild(msg);
+        } else {
+          btn.textContent = 'Try again';
+          btn.disabled = false;
+        }
+      }).catch(function(){btn.textContent='Try again';btn.disabled=false;});
+    });
+  }
+  wireForm('hero-form','hero-form-wrap');
+  wireForm('cta-form','cta-form-wrap');
+
+  /* SCROLL REVEALS */
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+      });
+    },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal,.reveal-grid').forEach(function(el){obs.observe(el);});
+  } else {
+    document.querySelectorAll('.reveal,.reveal-grid').forEach(function(el){el.classList.add('visible');});
+  }
+
+  if(reduced) return;
+
+  /* SCROLL PROGRESS BAR */
+  var bar = document.getElementById('progress-bar');
+  function updateProgress(){
+    var h = document.documentElement;
+    var pct = h.scrollTop/(h.scrollHeight - h.clientHeight)*100;
+    if(bar) bar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, {passive:true});
+
+  /* MOUSE SPOTLIGHT on dark sections */
+  document.querySelectorAll('.screenshots-section,.cta-section').forEach(function(sec){
+    sec.addEventListener('mousemove',function(e){
+      var r = sec.getBoundingClientRect();
+      var x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+      var y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+      sec.style.setProperty('--mx', x + '%');
+      sec.style.setProperty('--my', y + '%');
+    },{passive:true});
+  });
+
+  /* 3D TILT on screen devices and feature cells */
+  document.querySelectorAll('.screen-device,.feature-cell').forEach(function(card){
+    card.addEventListener('mousemove',function(e){
+      var r = card.getBoundingClientRect();
+      var x = (e.clientX - r.left - r.width/2) / (r.width/2);
+      var y = (e.clientY - r.top - r.height/2) / (r.height/2);
+      card.style.transform = 'rotateY('+( x*8)+'deg) rotateX('+(-y*5)+'deg) translateZ(8px)';
+    },{passive:true});
+    card.addEventListener('mouseleave',function(){
+      card.style.transform = '';
     });
   });
 
-  /* OBSERVERS */
-  if('IntersectionObserver' in window){
-    var revObs = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); revObs.unobserve(e.target); } });
-    }, {threshold:0.08, rootMargin:'0px 0px -28px 0px'});
-    document.querySelectorAll('.reveal').forEach(function(el){ revObs.observe(el); });
+  /* MAGNETIC BUTTONS */
+  document.querySelectorAll('.mag').forEach(function(btn){
+    btn.addEventListener('mousemove',function(e){
+      var r = btn.getBoundingClientRect();
+      var dx = (e.clientX - (r.left + r.width/2)) * 0.3;
+      var dy = (e.clientY - (r.top + r.height/2)) * 0.3;
+      btn.style.transform = 'translate('+dx+'px,'+dy+'px)';
+    },{passive:true});
+    btn.addEventListener('mouseleave',function(){
+      btn.style.transform = '';
+    });
+  });
 
-    var divObs = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('anim'); divObs.unobserve(e.target); } });
-    }, {threshold:0.5});
-    document.querySelectorAll('.divider').forEach(function(el){ divObs.observe(el); });
-  } else {
-    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
-    document.querySelectorAll('.divider').forEach(function(el){ el.classList.add('anim'); });
+  /* 3D HERO PHONE TILT — scoped to hero height only */
+  var heroDevice = document.querySelector('.device');
+  var heroH = window.innerHeight;
+  if(heroDevice){
+    document.addEventListener('mousemove',function(e){
+      if(window.scrollY >= heroH) return;
+      var rx = -((e.clientY - heroH/2) / (heroH/2)) * 10;
+      var ry = ((e.clientX - window.innerWidth/2) / (window.innerWidth/2)) * 12;
+      heroDevice.style.transform = 'rotateX('+rx+'deg) rotateY('+ry+'deg)';
+    },{passive:true});
+    document.addEventListener('mouseleave',function(){heroDevice.style.transform='';});
   }
 
-  /* Stagger grade pills */
-  document.querySelectorAll('.grade-pill').forEach(function(el,i){ el.style.transitionDelay = (i*0.08)+'s'; });
-  document.querySelectorAll('.proof-card').forEach(function(el,i){ el.style.transitionDelay = (i*0.1)+'s'; });
-  document.querySelectorAll('.step-card').forEach(function(el,i){ el.style.transitionDelay = (i*0.1)+'s'; });
-
-  /* Phone tilt on desktop */
-  var phone = document.querySelector('.phone-3d');
-  if(phone && !reduced && window.innerWidth > 860){
-    document.addEventListener('mousemove', function(e){
-      var r = phone.getBoundingClientRect();
-      var dx = (e.clientX - (r.left + r.width/2)) / 360;
-      var dy = (e.clientY - (r.top + r.height/2)) / 540;
-      phone.style.animationPlayState = 'paused';
-      phone.style.transform = 'rotateX(' + (-dy*10 - 8) + 'deg) rotateY(' + (dx*12 - 10) + 'deg)';
-    });
-    phone.addEventListener('mouseleave', function(){
-      phone.style.animationPlayState = 'running';
-      phone.style.transform = '';
-    });
+  /* PARALLAX on hero phone column */
+  var heroPhone = document.getElementById('hero-phone');
+  if(heroPhone){
+    window.addEventListener('scroll',function(){
+      if(window.scrollY < heroH) heroPhone.style.transform = 'translateY('+(window.scrollY*0.1)+'px)';
+    },{passive:true});
   }
+
+  /* COUNTER on proof — targets <strong> inside .proof-text */
+  var proof = document.getElementById('hero-proof');
+  if(proof){
+    var proofStrong = proof.querySelector('.proof-text strong');
+    if(proofStrong){
+      var counted = false;
+      var cio = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting && !counted){
+            counted = true;
+            var dur = 1400, end = 500, t0 = null;
+            requestAnimationFrame(function step(ts){
+              if(!t0) t0 = ts;
+              var prog = Math.min((ts-t0)/dur, 1);
+              var ease = 1 - Math.pow(1-prog, 3);
+              proofStrong.textContent = Math.round(ease*end)+'+';
+              if(prog < 1) requestAnimationFrame(step);
+            });
+            cio.unobserve(proof);
+          }
+        });
+      },{threshold:0.5});
+      cio.observe(proof);
+    }
+  }
+
 })();
 </script>
 </body>

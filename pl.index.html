@@ -200,9 +200,8 @@ nav.scrolled{
 }
 .device-screen{
   border-radius:32px;overflow:hidden;background:#0D1A14;
-  aspect-ratio:1284/2778;
+  aspect-ratio:9/19.5;position:relative;
 }
-.device-screen img{width:100%;height:100%;object-fit:cover;display:block;border-radius:32px;}
 .device-btn{position:absolute;right:-3px;width:3px;border-radius:2px;background:rgba(255,255,255,0.12);}
 .device-btn-1{top:80px;height:40px;}
 .device-btn-2{top:132px;height:60px;}
@@ -262,8 +261,66 @@ nav.scrolled{
   content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);
   width:50px;height:5px;border-radius:3px;background:rgba(255,255,255,0.12);z-index:2;
 }
-.screen-device-screen{border-radius:30px;overflow:hidden;aspect-ratio:1284/2778;background:#0a0a0a;}
-.screen-device-screen img{width:100%;height:100%;object-fit:cover;display:block;}
+.screen-device-screen{border-radius:30px;overflow:hidden;aspect-ratio:9/19.5;background:#0a0a0a;position:relative;}
+.phone-screen-inner{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;}
+/* Screen 1 — Scanner */
+.ps-scanner{background:linear-gradient(180deg,#050F0A 0%,#0A1A10 100%);}
+.ps-topbar{padding:14px 12px 8px;display:flex;justify-content:space-between;align-items:center;}
+.ps-topbar-title{font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.5);text-transform:uppercase;}
+.ps-topbar-icon{width:14px;height:14px;border-radius:50%;background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.3);}
+.ps-cam{flex:1;margin:0 10px;border-radius:10px;background:linear-gradient(135deg,#0D1F14,#081409);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.05);}
+.ps-scanline{position:absolute;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(74,222,128,.9),transparent);box-shadow:0 0 8px rgba(74,222,128,.6);animation:scan-move 2.2s cubic-bezier(.4,0,.6,1) infinite;}
+.ps-corners{position:absolute;inset:10px;}
+.ps-corner{position:absolute;width:14px;height:14px;border-color:rgba(74,222,128,.7);border-style:solid;border-width:0;}
+.ps-corner:nth-child(1){top:0;left:0;border-top-width:2px;border-left-width:2px;}
+.ps-corner:nth-child(2){top:0;right:0;border-top-width:2px;border-right-width:2px;}
+.ps-corner:nth-child(3){bottom:0;left:0;border-bottom-width:2px;border-left-width:2px;}
+.ps-corner:nth-child(4){bottom:0;right:0;border-bottom-width:2px;border-right-width:2px;}
+.ps-result{margin:8px 10px 10px;background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.15);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;}
+.ps-result-score{width:26px;height:26px;border-radius:50%;border:2px solid #4ade80;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#4ade80;flex-shrink:0;}
+.ps-result-name{font-size:7px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:2px;}
+.ps-result-sub{font-size:6px;color:rgba(255,255,255,.35);}
+/* Screen 2 — Ingredients */
+.ps-ingredients{background:linear-gradient(180deg,#080B12 0%,#050710 100%);}
+.ps-ing-header{padding:14px 12px 10px;display:flex;align-items:center;gap:8px;}
+.ps-ing-back{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.06);flex-shrink:0;}
+.ps-ing-htitle{font-size:8px;font-weight:700;color:rgba(255,255,255,.7);flex:1;}
+.ps-score-row{margin:0 10px 10px;background:rgba(59,126,246,.08);border:1px solid rgba(59,126,246,.15);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;}
+.ps-score-ring{width:28px;height:28px;border-radius:50%;border:2px solid #3B7EF6;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#3B7EF6;flex-shrink:0;}
+.ps-score-label{font-size:6px;color:rgba(255,255,255,.4);margin-bottom:2px;}
+.ps-score-val{font-size:8px;font-weight:700;color:rgba(255,255,255,.8);}
+.ps-ing-list{padding:0 10px;display:flex;flex-direction:column;gap:5px;flex:1;}
+.ps-ing-row{display:flex;align-items:center;gap:6px;padding:5px 8px;background:rgba(255,255,255,.03);border-radius:6px;border:1px solid rgba(255,255,255,.05);}
+.ps-ing-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.ps-ing-dot--g{background:#4ade80;box-shadow:0 0 4px rgba(74,222,128,.5);}
+.ps-ing-dot--y{background:#fbbf24;box-shadow:0 0 4px rgba(251,191,36,.4);}
+.ps-ing-dot--r{background:#f87171;box-shadow:0 0 4px rgba(248,113,113,.4);}
+.ps-ing-name{font-size:6.5px;color:rgba(255,255,255,.6);flex:1;}
+.ps-ing-grade--g{color:#4ade80;font-size:6px;font-weight:700;}
+.ps-ing-grade--y{color:#fbbf24;font-size:6px;font-weight:700;}
+.ps-ing-grade--r{color:#f87171;font-size:6px;font-weight:700;}
+/* Screen 3 — Diary */
+.ps-diary{background:linear-gradient(180deg,#06060E 0%,#08080F 100%);}
+.ps-diary-header{padding:14px 12px 8px;}
+.ps-diary-title{font-size:8px;font-weight:700;color:rgba(255,255,255,.7);}
+.ps-diary-sub{font-size:6px;color:rgba(255,255,255,.3);margin-top:1px;}
+.ps-macros{margin:0 10px 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.ps-macro{background:rgba(255,255,255,.04);border-radius:6px;padding:6px 4px;text-align:center;border:1px solid rgba(255,255,255,.06);}
+.ps-macro-val{font-size:9px;font-weight:800;color:rgba(255,255,255,.8);line-height:1;}
+.ps-macro-label{font-size:5.5px;color:rgba(255,255,255,.35);margin-top:2px;text-transform:uppercase;letter-spacing:.5px;}
+.ps-bar-section{padding:0 10px;margin-bottom:8px;}
+.ps-bar-row{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+.ps-bar-label{font-size:6px;color:rgba(255,255,255,.4);width:28px;flex-shrink:0;}
+.ps-bar-track{flex:1;height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;}
+.ps-bar-fill--c{height:100%;border-radius:2px;background:#3B7EF6;width:72%;}
+.ps-bar-fill--p{height:100%;border-radius:2px;background:#4ade80;width:58%;}
+.ps-bar-fill--f{height:100%;border-radius:2px;background:#fbbf24;width:41%;}
+.ps-meals{padding:0 10px;display:flex;flex-direction:column;gap:4px;flex:1;}
+.ps-meal-row{display:flex;align-items:center;gap:6px;padding:5px 7px;background:rgba(255,255,255,.03);border-radius:6px;}
+.ps-meal-icon{font-size:9px;}
+.ps-meal-name{font-size:6.5px;font-weight:600;color:rgba(255,255,255,.65);flex:1;}
+.ps-meal-cal{font-size:5.5px;color:rgba(255,255,255,.3);}
+.ps-meal-dot{width:5px;height:5px;border-radius:50%;background:rgba(74,222,128,.4);flex-shrink:0;}
 .screen-card:nth-child(2) .screen-device{transform:translateY(-24px);}
 .screen-card:nth-child(2) .screen-device:hover{transform:translateY(-32px);}
 .screen-label{text-align:center;}
@@ -322,8 +379,7 @@ nav.scrolled{
   content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);
   width:50px;height:5px;border-radius:3px;background:rgba(255,255,255,0.14);z-index:2;
 }
-.how-device-screen{border-radius:30px;overflow:hidden;aspect-ratio:1284/2778;background:#0a0a0a;}
-.how-device-screen img{width:100%;height:100%;object-fit:cover;display:block;}
+.how-device-screen{border-radius:30px;overflow:hidden;aspect-ratio:9/19.5;background:#0a0a0a;position:relative;}
 
 /* SCROLL PROGRESS */
 .progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--green);z-index:200;width:0%;transition:width .1s linear;pointer-events:none;}
@@ -498,7 +554,26 @@ footer p{font-size:12px;color:var(--muted);}
     <div class="hero-phone" id="hero-phone">
       <div class="device" role="img" aria-label="PureLabel app showing food scanner">
         <div class="device-screen">
-          <img src="https://www.apexxholdings.com/screenshots/screenshot-1-scanner.png" alt="PureLabel scanner screen" loading="eager"/>
+          <div class="phone-screen-inner ps-scanner">
+            <div class="ps-topbar">
+              <span class="ps-topbar-title">Scanner</span>
+              <div class="ps-topbar-icon"></div>
+            </div>
+            <div class="ps-cam">
+              <div class="ps-scanline"></div>
+              <div class="ps-corners">
+                <div class="ps-corner"></div><div class="ps-corner"></div>
+                <div class="ps-corner"></div><div class="ps-corner"></div>
+              </div>
+            </div>
+            <div class="ps-result">
+              <div class="ps-result-score">82</div>
+              <div>
+                <div class="ps-result-name">Organic Oat Milk</div>
+                <div class="ps-result-sub">Clean · 4 ingredients</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="device-btn device-btn-1"></div>
         <div class="device-btn device-btn-2"></div>
@@ -569,10 +644,31 @@ footer p{font-size:12px;color:var(--muted);}
     <p class="section-sub-dark reveal">Everything you need to know before the food hits your cart.</p>
 
     <div class="screens-grid reveal-grid">
+
+      <!-- Phone 1: Scanner -->
       <div class="screen-card">
         <div class="screen-device">
           <div class="screen-device-screen">
-            <img src="https://www.apexxholdings.com/screenshots/screenshot-1-scanner.png" alt="PureLabel scanner" loading="lazy"/>
+            <div class="phone-screen-inner ps-scanner">
+              <div class="ps-topbar">
+                <span class="ps-topbar-title">Scanner</span>
+                <div class="ps-topbar-icon"></div>
+              </div>
+              <div class="ps-cam">
+                <div class="ps-scanline"></div>
+                <div class="ps-corners">
+                  <div class="ps-corner"></div><div class="ps-corner"></div>
+                  <div class="ps-corner"></div><div class="ps-corner"></div>
+                </div>
+              </div>
+              <div class="ps-result">
+                <div class="ps-result-score">82</div>
+                <div>
+                  <div class="ps-result-name">Organic Oat Milk</div>
+                  <div class="ps-result-sub">Clean · 4 ingredients</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="screen-label">
@@ -581,10 +677,30 @@ footer p{font-size:12px;color:var(--muted);}
         </div>
       </div>
 
+      <!-- Phone 2: Ingredients -->
       <div class="screen-card">
         <div class="screen-device">
           <div class="screen-device-screen">
-            <img src="https://www.apexxholdings.com/screenshots/screenshot-2-ingredients.png" alt="PureLabel ingredient breakdown" loading="lazy"/>
+            <div class="phone-screen-inner ps-ingredients">
+              <div class="ps-ing-header">
+                <div class="ps-ing-back"></div>
+                <span class="ps-ing-htitle">Ingredient Breakdown</span>
+              </div>
+              <div class="ps-score-row">
+                <div class="ps-score-ring">82</div>
+                <div>
+                  <div class="ps-score-label">Safety Score</div>
+                  <div class="ps-score-val">Clean Label</div>
+                </div>
+              </div>
+              <div class="ps-ing-list">
+                <div class="ps-ing-row"><div class="ps-ing-dot ps-ing-dot--g"></div><span class="ps-ing-name">Whole Grain Oats</span><span class="ps-ing-grade--g">A+</span></div>
+                <div class="ps-ing-row"><div class="ps-ing-dot ps-ing-dot--g"></div><span class="ps-ing-name">Filtered Water</span><span class="ps-ing-grade--g">A</span></div>
+                <div class="ps-ing-row"><div class="ps-ing-dot ps-ing-dot--y"></div><span class="ps-ing-name">Natural Flavors</span><span class="ps-ing-grade--y">C</span></div>
+                <div class="ps-ing-row"><div class="ps-ing-dot ps-ing-dot--r"></div><span class="ps-ing-name">Carrageenan</span><span class="ps-ing-grade--r">F</span></div>
+                <div class="ps-ing-row"><div class="ps-ing-dot ps-ing-dot--g"></div><span class="ps-ing-name">Sea Salt</span><span class="ps-ing-grade--g">A</span></div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="screen-label">
@@ -593,10 +709,31 @@ footer p{font-size:12px;color:var(--muted);}
         </div>
       </div>
 
+      <!-- Phone 3: Diary -->
       <div class="screen-card">
         <div class="screen-device">
           <div class="screen-device-screen">
-            <img src="https://www.apexxholdings.com/screenshots/screenshot-3-diary.png" alt="PureLabel nutrition diary" loading="lazy"/>
+            <div class="phone-screen-inner ps-diary">
+              <div class="ps-diary-header">
+                <div class="ps-diary-title">Today's Nutrition</div>
+                <div class="ps-diary-sub">Wednesday · 3 meals logged</div>
+              </div>
+              <div class="ps-macros">
+                <div class="ps-macro"><div class="ps-macro-val">1,840</div><div class="ps-macro-label">Calories</div></div>
+                <div class="ps-macro"><div class="ps-macro-val">92g</div><div class="ps-macro-label">Protein</div></div>
+                <div class="ps-macro"><div class="ps-macro-val">54g</div><div class="ps-macro-label">Fat</div></div>
+              </div>
+              <div class="ps-bar-section">
+                <div class="ps-bar-row"><span class="ps-bar-label">Carbs</span><div class="ps-bar-track"><div class="ps-bar-fill--c"></div></div></div>
+                <div class="ps-bar-row"><span class="ps-bar-label">Protein</span><div class="ps-bar-track"><div class="ps-bar-fill--p"></div></div></div>
+                <div class="ps-bar-row"><span class="ps-bar-label">Fat</span><div class="ps-bar-track"><div class="ps-bar-fill--f"></div></div></div>
+              </div>
+              <div class="ps-meals">
+                <div class="ps-meal-row"><span class="ps-meal-icon">🌅</span><span class="ps-meal-name">Oat Milk Latte</span><span class="ps-meal-cal">120 cal</span><div class="ps-meal-dot"></div></div>
+                <div class="ps-meal-row"><span class="ps-meal-icon">☀️</span><span class="ps-meal-name">Greek Yogurt</span><span class="ps-meal-cal">180 cal</span><div class="ps-meal-dot"></div></div>
+                <div class="ps-meal-row"><span class="ps-meal-icon">🍽️</span><span class="ps-meal-name">Chicken Salad</span><span class="ps-meal-cal">420 cal</span><div class="ps-meal-dot"></div></div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="screen-label">
@@ -604,6 +741,7 @@ footer p{font-size:12px;color:var(--muted);}
           <p>Log nutrition as you scan.<br>No manual entry ever.</p>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -696,7 +834,26 @@ footer p{font-size:12px;color:var(--muted);}
       <div class="how-right reveal">
         <div class="how-device" role="img" aria-label="PureLabel ingredient breakdown screen">
           <div class="how-device-screen">
-            <img src="https://www.apexxholdings.com/screenshots/screenshot-2-ingredients.png" alt="Ingredient analysis screen" loading="lazy"/>
+            <div class="phone-screen-inner ps-ingredients">
+              <div class="ps-ing-header">
+                <div class="ps-ing-back"></div>
+                <span class="ps-ing-htitle">Ingredient Breakdown</span>
+              </div>
+              <div class="ps-score-row">
+                <div class="ps-score-ring">82</div>
+                <div>
+                  <div class="ps-score-label">Safety Score</div>
+                  <div class="ps-score-val">Clean Label</div>
+                </div>
+              </div>
+              <div class="ps-ing-list">
+                <div class="ps-ing-row"><div class="ps-ing-dot ps-ing-dot--g"></div><span class="ps-ing-name">Whole Grain Oats</span><span class="ps-ing-grade--g">A+</span></div>
+                <div class="ps-ing-row"><div class="ps-ing-dot ps-ing-dot--g"></div><span class="ps-ing-name">Filtered Water</span><span class="ps-ing-grade--g">A</span></div>
+                <div class="ps-ing-row"><div class="ps-ing-dot ps-ing-dot--y"></div><span class="ps-ing-name">Natural Flavors</span><span class="ps-ing-grade--y">C</span></div>
+                <div class="ps-ing-row"><div class="ps-ing-dot ps-ing-dot--r"></div><span class="ps-ing-name">Carrageenan</span><span class="ps-ing-grade--r">F</span></div>
+                <div class="ps-ing-row"><div class="ps-ing-dot ps-ing-dot--g"></div><span class="ps-ing-name">Sea Salt</span><span class="ps-ing-grade--g">A</span></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

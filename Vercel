@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/purelabel", "destination": "/purelabel.html" }
+  ]
+}

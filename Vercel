@@ -1,5 +1,4 @@
 {
-  "rewrites": [
-    { "source": "/purelabel", "destination": "/purelabel.html" }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
